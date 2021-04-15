@@ -6,7 +6,7 @@ Kelompok D-04
 - Fiodhy Ardito Narawangsa (05111940000218)
 
 ## SOAL 1 ##
-  Pada hari ulang tahun Stevany, Steven ingin memberikan Stevany zip berisikan hal-hal yang disukai Stevany. Steven ingin isi zipnya menjadi rapi dengan membuat folder masing-masing sesuai extensi. 
+  Pada hari ulang tahun Stevany, Steven ingin memberikan Stevany zip berisikan hal-hal yang disukai Stevany. Steven ingin isi zipnya menjadi rapi dengan membuat folder masing-masing sesuai extensi. <br/>
   (a) Dikarenakan Stevany sangat menyukai huruf Y, Steven ingin nama folder-foldernya adalah Musyik untuk mp3, Fylm untuk mp4, dan Pyoto untuk jpg <br/>
   (b) untuk musik Steven mendownloadnya dari link di bawah, film dari link di bawah, dan foto dari link dibawah  <br/>
   (c) Steven tidak ingin isi folder yang dibuatnya berisikan zip, sehingga perlu meng-extract-nya setelah didownload serta <br/>
