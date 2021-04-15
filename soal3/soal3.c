@@ -153,12 +153,12 @@ int main(int argc, char *argv[]) {
                 char *argv[] = {"zip", "-r", file_name, buffer, NULL};
                 execv("/bin/zip", argv);
             }
-                while (wait(NULL) != child_id);
-                
-                char *argv[] = {"rm", "-r", buffer, NULL};
-                execv("/bin/rm", argv);
-            }
-            
+            while (wait(NULL) != child_id);
+
+            char *argv[] = {"rm", "-r", buffer, NULL};
+            execv("/bin/rm", argv);
+        }
+ 
         sleep(40);
     }
 }
