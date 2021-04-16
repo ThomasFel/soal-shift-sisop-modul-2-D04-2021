@@ -11,11 +11,14 @@
 #include <time.h>
 
 int main(int argc, char *argv[]) {
+    
+    // Jika banyaknya argumen salah
     if (argc != 2) {
         printf("ERROR! Argumen salah!\n");
         return 1;
     }
 
+    // Jika argumen yang dimasukkan salah
     if (strcmp(argv[1], "-z") != 0 && strcmp(argv[1], "-x") != 0) {
         printf("ERROR! Mode salah!\n");
         return 1;
@@ -54,7 +57,7 @@ int main(int argc, char *argv[]) {
         fprintf(killer_prog, inputan, sid);
     }
 
-    if (strcmp(argv[1], "-x") == 0) {
+    else if (strcmp(argv[1], "-x") == 0) {
         char *inputan = ""
         "#!/bin/bash\n"
         "kill %d\n"
@@ -76,21 +79,24 @@ int main(int argc, char *argv[]) {
         timeinfo = localtime(&rawtime);
         strftime(buffer, 80, "%Y-%m-%d_%X", timeinfo);
 
-        pid_t child_id;
+        pid_t child_id, child_id2, child_id3, child_id4;
         child_id = fork();
 
+        // Child process 1
         if (child_id == 0) {
             char *argv[] = {"mkdir", buffer, NULL};
             execv("/bin/mkdir", argv);
         }
 
-        child_id = fork();
+        child_id2 = fork();
 
-        if (child_id == 0) {
+        // Child process 2
+        if (child_id2 == 0) {
             for (int i = 0; i < 10; i++) {
-                child_id = fork();
+                child_id3 = fork();
                 
-                if (child_id == 0) {
+                // Child process 3
+                if (child_id3 == 0) {
                     char buffer2[80], location[160], link[80];
                     rawtime = time(NULL);
 
@@ -109,36 +115,27 @@ int main(int argc, char *argv[]) {
             
             while (wait(NULL) > 0);
 
-            child_id = fork();
+            child_id4 = fork();
 
-            if (child_id == 0) {
+            // Child process 4
+            if (child_id4 == 0) {
                 char message[80] = "Download Success", file_name[160], temp;
                 
                 for (int j = 0; j < strlen(message); j++) {
-                    temp = message[j];
-                    
-                    if (temp == ' ') {
-                        continue;
-                    }
-
-                    if (temp >= 'a' && temp <= 'z') {
-                        temp += 5;
+                    if (message[j] >= 'a' && message[j] <= 'z') {
+                        message[j] += 5;
 
                         if (temp > 'z') {
-                            temp = temp - 'z' + 'a' - 1;
+                            message[j] = message[j] - 'z' + 'a' - 1;
                         }
-
-                        message[j] = temp;
                     }
 
-                    else if (temp >= 'A' && temp <= 'Z') {
-                        temp += 5;
+                    else if (message[j] >= 'A' && message[j] <= 'Z') {
+                        message[j] += 5;
 
                         if (temp > 'Z') {
-                            temp = temp - 'Z' + 'A' - 1;
+                            message[j] = message[j] - 'Z' + 'A' - 1;
                         }
-
-                        message[j] = temp;
                     }
                 }
                 
@@ -153,12 +150,13 @@ int main(int argc, char *argv[]) {
                 char *argv[] = {"zip", "-r", file_name, buffer, NULL};
                 execv("/bin/zip", argv);
             }
-            while (wait(NULL) != child_id);
 
+            while (wait(NULL) != child_id4);
+            
             char *argv[] = {"rm", "-r", buffer, NULL};
             execv("/bin/rm", argv);
         }
- 
+            
         sleep(40);
     }
 }
