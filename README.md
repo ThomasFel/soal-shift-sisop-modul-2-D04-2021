@@ -95,7 +95,7 @@ Kelompok D-04
 
 - <b>SOAL</b>
 
-  Setiap direktori yang sudah dibuat diisi dengan 10 gambar yang di-<i>download</i> dari https://picsum.photos/, di mana setiap gambar akan di-<i>download</i> setiap 5 detik. Setiap gambar yang di-<i>download</i> akan diberi nama dengan format <i>timestamp</i> [YYYY-mm-dd_HH:ii:ss] dan gambar tersebut berbentuk persegi dengan ukuran `(n % 1000) + 50 pixel` dimana <b>n</b> adalah detik <b>Epoch Unix</b>.
+  Setiap direktori yang sudah dibuat diisi dengan 10 gambar yang di-<i>download</i> dari https://picsum.photos/, di mana setiap gambar akan di-<i>download</i> setiap 5 detik. Setiap gambar yang di-<i>download</i> akan diberi nama dengan format <i>timestamp</i> [YYYY-mm-dd_HH:ii:ss] dan gambar tersebut berbentuk persegi dengan ukuran `(n % 1000) + 50 pixel` di mana <b>n</b> adalah detik <b>Epoch Unix</b>.
 
 ### 3C ###
 
