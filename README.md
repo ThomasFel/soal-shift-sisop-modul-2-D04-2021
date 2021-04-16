@@ -6,44 +6,82 @@ Kelompok D-04
 - Fiodhy Ardito Narawangsa (05111940000218)
 
 ## SOAL 1 ##
-  Pada hari ulang tahun Stevany, Steven ingin memberikan Stevany zip berisikan hal-hal yang disukai Stevany. Steven ingin isi zipnya menjadi rapi dengan membuat folder masing-masing sesuai extensi. <br/>
-  <br/>
-  (a) Dikarenakan Stevany sangat menyukai huruf Y, Steven ingin nama folder-foldernya adalah Musyik untuk mp3, Fylm untuk mp4, dan Pyoto untuk jpg <br/>
-  (b) untuk musik Steven mendownloadnya dari link di bawah, film dari link di bawah, dan foto dari link dibawah  <br/>
-  (c) Steven tidak ingin isi folder yang dibuatnya berisikan zip, sehingga perlu meng-extract-nya setelah didownload serta <br/>
-  (d) memindahkannya ke dalam folder yang telah dibuat (hanya file yang dimasukkan).<br/>
-  (e) Untuk memudahkan Steven, ia ingin semua hal di atas berjalan otomatis 6 jam sebelum waktu ulang tahun Stevany). <br/>
-  (f) Setelah itu pada waktu ulang tahunnya Stevany, semua folder akan di zip dengan nama Lopyu_Stevany.zip dan semua folder akan di delete(sehingga hanya menyisakan .zip).<br/>
-   
-  Note:
-  - Ulang Tahun Stevany : 09 April Pukul 22.22 WIB
-  - Semua poin dijalankan oleh 1 script di latar belakang, termasuk mendownload file zip-nya. Jadi cukup jalankan script 1x serta ubah time dan date untuk check hasilnya.
-  - Tidak boleh menggunakan fungsi system(), mkdir(), dan rename() (Yang di bahasa C)
-  - Tidak boleh pake cron !!!
-  - Menggunakan fork dan exec.
+
+### 1A ###
+
+- <b>SOAL</b>
+
+  Dikarenakan Stevany sangat menyukai huruf <b>Y</b>, Steven ingin nama folder-foldernya adalah <b>Musyik</b> untuk mp3, <b>Fylm</b> untuk mp4, dan <b>Pyoto</b> untuk jpg.
+
+### 1B ###
+
+- <b>SOAL</b>
+
+  Untuk musik Steven <b>men-<i>download</i>-nya</b> dari link di bawah, film dari link di bawah lagi, dan foto dari link di bawah juga :).
+
+### 1C ###
+
+- <b>SOAL</b>
+
+  Steven tidak ingin isi folder yang dibuatnya berisikan zip, sehingga perlu <b>meng-<i>extract</i>-nya</b> setelah di-<i>download</i>.
+
+### 1D ###
+
+- <b>SOAL</b>
+
+  Serta memindahkannya ke dalam folder yang telah dibuat (hanya <i>file</i> yang dimasukkan).
+
+### 1E ###
+
+- <b>SOAL</b>
+
+  Untuk memudahkan Steven, ia ingin semua hal di atas berjalan <b>otomatis</b> 6 jam sebelum waktu ulang tahun Stevany.
+  Setelah itu pada <b>waktu</b> ulang tahunnya Stevany, semua folder akan di-<i>zip</i> dengan nama <i>Lopyu_Stevany.zip</i> dan semua folder akan <b>di-<i>delete</i></b> (sehingga hanya menyisakan .zip).
  
- ## SOAL 2 ## 
-  Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya.<br/>
-  <br/>
- (a) Pertama-tama program perlu mengextract zip yang diberikan ke dalam folder “/home/[user]/modul2/petshop”. Karena bos Loba teledor, dalam zip tersebut bisa berisi folder-          folder yang tidak penting, maka program harus bisa membedakan file dan folder sehingga dapat memproses file yang seharusnya dikerjakan dan menghapus folder-folder yang          tidak dibutuhkan.<br/>
- (b) Foto peliharaan perlu dikategorikan sesuai jenis peliharaan, maka kamu harus membuat folder untuk setiap jenis peliharaan yang ada dalam zip. Karena kamu tidak mungkin          memeriksa satu-persatu, maka program harus membuatkan folder-folder yang dibutuhkan sesuai dengan isi zip.<br/>
-     Contoh: Jenis peliharaan kucing akan disimpan dalam “/petshop/cat”, jenis peliharaan kura-kura akan disimpan dalam “/petshop/turtle”.<br/>
- (c) Setelah folder kategori berhasil dibuat, programmu akan memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan.
-     Contoh: “/petshop/cat/joni.jpg”. <br/>
- (d) Karena dalam satu foto bisa terdapat lebih dari satu peliharaan maka foto harus di pindah ke masing-masing kategori yang sesuai. <br/>
-     Contoh: foto dengan nama “dog;baro;1_cat;joni;2.jpg” dipindah ke folder “/petshop/cat/joni.jpg” dan “/petshop/dog/baro.jpg”.<br/>
- (e) Di setiap folder buatlah sebuah file "keterangan.txt" yang berisi nama dan umur semua peliharaan dalam folder tersebut. Format harus sesuai contoh.
+## SOAL 2 ## 
+ 
+### 2A ###
+
+- <b>SOAL</b>
+
+  Pertama-tama program perlu mengextract <i>zip</i> yang diberikan ke dalam folder <b>"/home/[user]/modul2/petshop"</b>. Karena bos Loba teledor, dalam <i>zip</i> tersebut bisa berisi folder-folder yang tidak penting, maka program harus bisa membedakan <i>file</i> dan folder sehingga dapat memproses <i>file</i> yang seharusnya dikerjakan dan menghapus folder-folder yang tidak dibutuhkan.
+
+### 2B ###
+
+- <b>SOAL</b>
+
+  Foto peliharaan perlu dikategorikan sesuai jenis peliharaan, maka kamu harus membuat folder untuk setiap jenis peliharaan yang ada dalam <i>zip</i>. Karena kamu tidak mungkin memeriksa satu per satu, maka program harus membuatkan folder-folder yang dibutuhkan sesuai dengan isi <i>zip</i>.
+
+  Contoh: Jenis peliharaan kucing akan disimpan dalam <b>"/petshop/cat"</b>, jenis peliharaan kura-kura akan disimpan dalam <b>"/petshop/turtle"</b>.
+
+### 2C ###
+
+- <b>SOAL</b>
+
+  Setelah folder kategori berhasil dibuat, programmu akan memindahkan foto ke folder dengan kategori yang sesuai dan di-<i>rename</i> dengan nama peliharaan.
+  
+  Contoh: <b>"/petshop/cat/joni.jpg"</b>.
+
+### 2D ###
+
+- <b>SOAL</b>
+
+  Karena dalam satu foto bisa terdapat lebih dari satu peliharaan, maka foto harus dipindah ke masing-masing kategori yang sesuai.
+  
+  Contoh: foto dengan nama <b>"dog;baro;1_cat;joni;2.jpg"</b> dipindah ke folder <b>"/petshop/cat/joni.jpg</b> dan <b>"/petshop/dog/baro.jpg</b>.
+
+### 2E ###
+
+- <b>SOAL</b>
+
+  Di setiap folder buatlah sebuah <i>file</i> <i>"keterangan.txt"</i> yang berisi nama dan umur semua peliharaan dalam folder tersebut. <b>Format harus sesuai contoh</b>.
   ```
-    nama : joni
+    nama  : joni
     umur  : 3 tahun
 
-    nama : miko
+    nama  : miko
     umur  : 2 tahun
   ```
-  Note:
-  - Setiap data peliharaan disimpan sebagai nama foto dengan format [jenis peliharaan]:[nama peliharaan]:[umur peliharaan dalam tahun]. Jika terdapat lebih dari satu peliharaan,     data dipisahkan menggunakan underscore(_).
-  - Tidak boleh menggunakan fungsi system(), mkdir(), dan rename().
-  - Menggunakan fork dan exec.
 
   ## SOAL 3 ##
    Ranora adalah mahasiswa Teknik Informatika yang saat ini sedang menjalani magang di perusahan ternama yang bernama “FakeKos Corp.”, perusahaan yang bergerak dibidang keamanan data. Karena Ranora masih magang, maka beban tugasnya tidak sebesar beban tugas pekerja tetap perusahaan. Di hari pertama Ranora bekerja, pembimbing magang Ranora memberi tugas pertamanya untuk membuat sebuah program.<br/>
