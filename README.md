@@ -23,13 +23,13 @@ Kelompok D-04
 
 - <b>SOAL</b>
 
-  Steven tidak ingin isi folder yang dibuatnya berisikan zip, sehingga perlu <b>meng-<i>extract</i>-nya</b> setelah di-<i>download</i>.
+  Steven tidak ingin isi folder yang dibuatnya berisikan <i>zip</i>, sehingga perlu <b>meng-<i>extract</i>-nya</b> setelah di-<i>download</i>.
 
 ### 1D ###
 
 - <b>SOAL</b>
 
-  Serta memindahkannya ke dalam folder yang telah dibuat (hanya <i>file</i> yang dimasukkan).
+  Memindahkan <i>file extract</i> tadi ke dalam folder yang telah dibuat (hanya <i>file</i> yang dimasukkan).
 
 ### 1E ###
 
@@ -83,20 +83,34 @@ Kelompok D-04
     umur  : 2 tahun
   ```
 
-  ## SOAL 3 ##
-   Ranora adalah mahasiswa Teknik Informatika yang saat ini sedang menjalani magang di perusahan ternama yang bernama “FakeKos Corp.”, perusahaan yang bergerak dibidang keamanan data. Karena Ranora masih magang, maka beban tugasnya tidak sebesar beban tugas pekerja tetap perusahaan. Di hari pertama Ranora bekerja, pembimbing magang Ranora memberi tugas pertamanya untuk membuat sebuah program.<br/>
-   <br/>
-(a) Ranora harus membuat sebuah program C yang dimana setiap 40 detik membuat sebuah direktori dengan nama sesuai timestamp [YYYY-mm-dd_HH:ii:ss].<br/>
-(b) Setiap direktori yang sudah dibuat diisi dengan 10 gambar yang didownload dari https://picsum.photos/, dimana setiap gambar akan didownload setiap 5 detik. Setiap gambar         yang didownload akan diberi nama dengan format timestamp [YYYY-mm-dd_HH:ii:ss] dan gambar tersebut berbentuk persegi dengan ukuran (n%1000) + 50 pixel dimana n adalah detik     Epoch Unix.<br/>
-(c) Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah file “status.txt”, dimana didalamnya berisi pesan “Download Success” yang terenkripsi       dengan teknik Caesar Cipher dan dengan shift 5. Caesar Cipher adalah Teknik enkripsi sederhana yang dimana dapat melakukan enkripsi string sesuai dengan shift/key yang kita     tentukan. Misal huruf “A” akan dienkripsi dengan shift 4 maka akan menjadi “E”. Karena Ranora orangnya perfeksionis dan rapi, dia ingin setelah file tersebut dibuat,             direktori akan di zip dan direktori akan didelete, sehingga menyisakan hanya file zip saja.<br/>
-(d) Untuk mempermudah pengendalian program, pembimbing magang Ranora ingin program tersebut akan men-generate sebuah program “Killer” yang executable, dimana program tersebut       akan menterminasi semua proses program yang sedang berjalan dan akan menghapus dirinya sendiri setelah program dijalankan. Karena Ranora menyukai sesuatu hal yang baru,         maka Ranora memiliki ide untuk program “Killer” yang dibuat nantinya harus merupakan program bash.<br/>
-(e) Pembimbing magang Ranora juga ingin nantinya program utama yang dibuat Ranora dapat dijalankan di dalam dua mode. Untuk mengaktifkan mode pertama, program harus dijalankan       dengan argumen -z, dan Ketika dijalankan dalam mode pertama, program utama akan langsung menghentikan semua operasinya Ketika program Killer dijalankan. Sedangkan untuk         mengaktifkan mode kedua, program harus dijalankan dengan argumen -x, dan Ketika dijalankan dalam mode kedua, program utama akan berhenti namun membiarkan proses di setiap       direktori yang masih berjalan hingga selesai (Direktori yang sudah dibuat akan mendownload gambar sampai selesai dan membuat file txt, lalu zip dan delete direktori).<br/>
+## SOAL 3 ##
 
-  Note:
-  - Tidak boleh menggunakan system() dan mkdir()
-  - Program utama merupakan SEBUAH PROGRAM C
-  - Wajib memuat algoritma Caesar Cipher pada program utama yang dibuat
+### 3A ###
 
+- <b>SOAL</b>
 
+  Ranora harus membuat sebuah program C yang di mana setiap 40 detik membuat sebuah direktori dengan nama sesuai <i>timestamp</i> [YYYY-mm-dd_HH:ii:ss].
+  
+### 3B ###
 
+- <b>SOAL</b>
 
+  Setiap direktori yang sudah dibuat diisi dengan 10 gambar yang di-<i>download</i> dari https://picsum.photos/, di mana setiap gambar akan di-<i>download</i> setiap 5 detik. Setiap gambar yang di-<i>download</i> akan diberi nama dengan format <i>timestamp</i> [YYYY-mm-dd_HH:ii:ss] dan gambar tersebut berbentuk persegi dengan ukuran `(n % 1000) + 50 pixel` dimana <b>n</b> adalah detik <b>Epoch Unix</b>.
+
+### 3C ###
+
+- <b>SOAL</b>
+
+  Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah file "<i>status.txt</i>", di mana didalamnya berisi pesan <b>"Download Success"</b> yang terenkripsi dengan teknik <b>Caesar Cipher</b> dan dengan shift 5. Caesar Cipher adalah teknik enkripsi sederhana yang di mana dapat melakukan enkripsi string sesuai dengan shift/key yang kita tentukan. Misal huruf <b>"A"</b> akan dienkripsi dengan shift 4 maka akan menjadi "E". Karena Ranora orangnya perfeksionis dan rapi, dia ingin setelah <i>file</i> tersebut dibuat, direktori akan di-<i>zip</i> dan direktori akan di-<i>delete</i>, sehingga menyisakan hanya <i>file zip</i> saja.
+
+### 3D ###
+
+- <b>SOAL</b>
+
+  Untuk mempermudah pengendalian program, pembimbing magang Ranora ingin program tersebut akan men-<i>generate</i> sebuah program <b>"Killer"</b> yang <i>executable</i>, di mana program tersebut akan menterminasi semua proses program yang sedang berjalan dan akan menghapus dirinya sendiri setelah program dijalankan. Karena Ranora menyukai sesuatu hal yang baru, maka Ranora memiliki ide untuk program <b>"Killer"</b> yang dibuat nantinya harus merupakan program <b>Bash</b>.
+
+### 3E ###
+
+- <b>SOAL</b>
+
+  Pembimbing magang Ranora juga ingin nantinya program utama yang dibuat Ranora dapat dijalankan di dalam dua mode. Untuk mengaktifkan mode pertama, program harus dijalankan dengan argumen `-z`, dan ketika dijalankan dalam mode pertama dan program <b>Killer</b> dijalankan, program utama akan langsung menghentikan semua operasinya. Sedangkan untuk mengaktifkan mode kedua, program harus dijalankan dengan argumen `-x`, dan ketika dijalankan dalam mode kedua, program utama akan berhenti namun membiarkan proses di setiap direktori yang masih berjalan hingga selesai (direktori yang sudah dibuat akan men-<i>download</i> gambar sampai selesai dan membuat <i>file</i> `.txt`, lalu <i>zip</i> dan <i>delete</i> direktori).
