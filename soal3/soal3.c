@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
 
             // Child process 4
             if (child_id4 == 0) {
-                char message[80] = "Download Success", file_name[160], temp;
+                char message[80] = "Download Success", file_name[160];
                 
                 for (int j = 0; j < strlen(message); j++) {
                     if (message[j] >= 'a' && message[j] <= 'z') {
