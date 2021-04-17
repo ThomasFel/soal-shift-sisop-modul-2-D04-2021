@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
                     if (message[j] >= 'a' && message[j] <= 'z') {
                         message[j] += 5;
 
-                        if (temp > 'z') {
+                        if (message[j] > 'z') {
                             message[j] = message[j] - 'z' + 'a' - 1;
                         }
                     }
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
                     else if (message[j] >= 'A' && message[j] <= 'Z') {
                         message[j] += 5;
 
-                        if (temp > 'Z') {
+                        if (message[j] > 'Z') {
                             message[j] = message[j] - 'Z' + 'A' - 1;
                         }
                     }
