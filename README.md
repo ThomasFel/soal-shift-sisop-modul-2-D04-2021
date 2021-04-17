@@ -319,7 +319,7 @@ Kelompok D-04
   
   Pendeklarasian di atas dilakukan sebelum <i>loop</i> utama daemon dan setelah mendapatkan Session ID (`sid`).
   
-  Lalu, <i>file killer.sh</i> diinputkan dengan string untuk melakukan proses `pkill`sesuai dengan Session ID (`sid`) dari program utama. Hal ini dilakukan juga agar seluruh <i>child process</i> juga ikut di-`kill`. Setelah itu, program <b>"Killer"</b> akan menghapus dirinya sendiri.
+  Lalu, <i>file killer.sh</i> diinputkan dengan string untuk melakukan proses `killall`sesuai dengan Session ID (`sid`) dari program utama. Hal ini dilakukan juga agar seluruh <i>child process</i> juga ikut di-`kill`. Setelah itu, program <b>"Killer"</b> akan menghapus dirinya sendiri.
   ```C
   char *inputan = ""
   "#!/bin/bash\n"
@@ -339,3 +339,47 @@ Kelompok D-04
 - <b>SOAL</b>
 
   Pembimbing magang Ranora juga ingin nantinya program utama yang dibuat Ranora dapat dijalankan di dalam dua mode. Untuk mengaktifkan mode pertama, program harus dijalankan dengan argumen `-z`, dan ketika dijalankan dalam mode pertama dan program <b>Killer</b> dijalankan, program utama akan langsung menghentikan semua operasinya. Sedangkan untuk mengaktifkan mode kedua, program harus dijalankan dengan argumen `-x`, dan ketika dijalankan dalam mode kedua, program utama akan berhenti namun membiarkan proses di setiap direktori yang masih berjalan hingga selesai (direktori yang sudah dibuat akan men-<i>download</i> gambar sampai selesai dan membuat <i>file</i> `.txt`, lalu <i>zip</i> dan <i>delete</i> direktori).
+  
+- <b>JAWABAN</b>
+
+  Untuk membuat mode, perlu menambahkan parameter pada `main()` untuk menerima argumen. Pertama membuat <i>file killer.sh</i>, kemudian mengecek argumen yang diinputkan pada terminal. Jika argumen `-z` akan langsung menghentikan semua operasi program utama, jika argumen `-x` hanya akan terminasi <i>parent process</i>, sedangkan <i>child process</i> akan ditunggu hingga selesai.
+  ```C
+  int main(int argc, char *argv[]) {
+    
+    // Jika banyaknya argumen salah
+    if (argc != 2) {
+        printf("ERROR! Argumen salah!\n");
+        return 1;
+    }
+
+    // Jika argumen yang dimasukkan salah
+    if (strcmp(argv[1], "-z") != 0 && strcmp(argv[1], "-x") != 0) {
+        printf("ERROR! Mode salah!\n");
+        return 1;
+    }
+    
+    . . .
+    
+  }
+  ```
+  Banyaknya argumen akan dicek dan akan mengeluarkan output <b>"ERROR! Argumen salah!"</b>, sedangkan `argv[1]` juga akan dicek apakah sesuai dengan mode yang ada dan akan mengeluarkan output <b>"ERROR! Mode salah!"</b>.
+  
+  Lalu, menggunakan fungsi `strcmp` untuk membandingkan argumen dengan input di dalam pengondisian. Untuk argumen `-z` akan menggunakan perintah `killall -9 ./soal3` (sama dengan [soal.3d](#3d "Goto 3d")) dan argumen `-x` akan menggunakan perintah `kill getpid()` untuk `kill` Process ID yang dimiliki program utama.
+  ```C
+  if (strcmp(argv[1], "-z") == 0) {
+      char *inputan = ""
+      "#!/bin/bash\n"
+      "killall -9 ./soal3\n"
+      "rm $0\n";
+      fprintf(killer_prog, inputan, sid);
+  }
+
+  else if (strcmp(argv[1], "-x") == 0) {
+      char *inputan = ""
+      "#!/bin/bash\n"
+      "kill %d\n"
+      "rm $0\n";
+      fprintf(killer_prog, inputan, getpid());
+  }
+  ```
+  Masing-masing mode akan di-<i>write</i> pada `killer_prog` dengan input yang telah dimasukkan melalui terminal. Terakhir, program <i>Killer.sh</i> akan di-<i>bash</i> dan me-<i>remove</i> dirinya sendiri.
