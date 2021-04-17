@@ -327,7 +327,7 @@ Kelompok D-04
   "rm $0\n";
   fprintf(killer_prog, inputan, sid);
   ```
-  `fork()` dijalankan sehingga <i>child process</i> akan melakukan `pkill` dan <i>parent process</i> akan menunggu <i>child process</i> melakukan `rm`. String di-<i>write</i> ke dalam `killer_prog` dengan fungsi `fprintf()`.
+  `fork()` dijalankan sehingga <i>child process</i> akan melakukan `killall` dan <i>parent process</i> akan menunggu <i>child process</i> melakukan `rm`. String di-<i>write</i> ke dalam `killer_prog` dengan fungsi `fprintf()`.
   
   Lalu `killer_prog` akan ditutup koneksinya menggunakan `fclose()`.
   ```C
