@@ -90,12 +90,145 @@ Kelompok D-04
 - <b>SOAL</b>
 
   Ranora harus membuat sebuah program C yang di mana setiap 40 detik membuat sebuah direktori dengan nama sesuai <i>timestamp</i> [YYYY-mm-dd_HH:ii:ss].
+
+- <b>JAWABAN</b>
+
+  Soal meminta untuk membuat program C berupa daemon yang akan berjalan tiap 40 detik dan akan melakukan `fork()` untuk melakukan `mkdir` dengan <i>timestamp</i> yang sesuai permintaan soal. Pertama, menggunakan <i>template</i> Daemon bawaan dari modul 2 yang nantinya akan dimodifikasi.
+  ```C
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <fcntl.h>
+  #include <errno.h>
+  #include <unistd.h>
+  #include <syslog.h>
+  #include <string.h>
+  #include <wait.h>
+  #include <time.h>
+
+
+  int main() {
+    pid_t pid, sid;        // Variabel untuk menyimpan PID
+
+    pid = fork();     // Menyimpan PID dari Child Process
+
+    /* Keluar saat fork gagal
+    * (nilai variabel pid < 0) */
+    if (pid < 0) {
+      exit(EXIT_FAILURE);
+    }
+
+    /* Keluar saat fork berhasil
+    * (nilai variabel pid adalah PID dari child process) */
+    if (pid > 0) {
+      exit(EXIT_SUCCESS);
+    }
+
+    umask(0);
+
+    sid = setsid();
+    if (sid < 0) {
+      exit(EXIT_FAILURE);
+    }
+
+    if ((chdir("/")) < 0) {
+      exit(EXIT_FAILURE);
+    }
+
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+
+    while (1) {
+      // Tulis program kalian di sini
+
+      sleep(30);
+    }
+  }
+  ```
+  Di sini ketambahan library baru, yaitu `<wait.h>` untuk melakukan fungsi wait, dan `time.h` untuk manipulasi <i>date dan time</i>.
+  
+  Proses selanjutnya adalah melakukan pendeklarasian awal untuk memanipulasi <i>date</i> dan <i>time</i>-nya.
+  ```C
+  time_t rawtime = time(NULL);
+  struct tm *timeinfo;
+  char buffer[80];
+
+  timeinfo = localtime(&rawtime);
+  ```
+  Variabel `rawtime` untuk menyimpan <i>timestamp</i> dalam format <b>Unix epoch</b>, variabel `timeinfo` untuk <i>timestamp</i> yang sudah terstruktur sesuai dengan `localtime`, dan variabel `buffer` sebagai <i>buffer</i> dari string hasil format variabel `timeinfo`.
+  
+  Kemudian <i>formatting</i> waktu `tm` menjadi string sesuai permintaan soal [YYYY-mm-dd_HH:ii:ss] ke dalam buffer `buffer` sebesar <b>80</b>. Di sini menggunakan `strftime`.
+  ```C
+  strftime(buffer, 80, "%Y-%m-%d_%X", timeinfo);
+  ```
+  
+  Setelah itu, <i>process</i> akan di-`fork` dan <i>child process</i> melakukan `execv()` terhadap perintah `mkdir` dengan argumen `buffer`. <i>Parent process</i> tidak akan menunggu <i>child process</i> dan akan langsung `sleep` selama 40 detik.
+  ```C
+  pid_t child_id, child_id2, child_id3, child_id4;
+  child_id = fork();
+
+  // Child process 1
+  if (child_id == 0) {
+      char *argv[] = {"mkdir", buffer, NULL};
+      execv("/bin/mkdir", argv);
+  }
+  
+  ...
+  
+  sleep(40);
+  ```
+  Sebagai catatan, di sini sudah dilakukan pendeklarasian `child_id` sampai `child_id4` yang akan digunakan pada sub soal selanjutnya.
   
 ### 3B ###
 
 - <b>SOAL</b>
 
   Setiap direktori yang sudah dibuat diisi dengan 10 gambar yang di-<i>download</i> dari https://picsum.photos/, di mana setiap gambar akan di-<i>download</i> setiap 5 detik. Setiap gambar yang di-<i>download</i> akan diberi nama dengan format <i>timestamp</i> [YYYY-mm-dd_HH:ii:ss] dan gambar tersebut berbentuk persegi dengan ukuran `(n % 1000) + 50 pixel` di mana <b>n</b> adalah detik <b>Epoch Unix</b>.
+
+- <b>JAWABAN</b>
+  
+  Dari masing-masing folder yang telah dibuat, program akan melakukan `fork` lagi yang <i>child process</i>-nya akan <i>loop</i> sebanyak 10 kali, per loop akan melakukan `fork` kembali untuk mengunduh <i>file</i> di https://picsum.photos/. Kemudian, agar ukuran piksel sesuai dengan yang diminta, maka dapat diinputkan pada tautan tersebut, seperti contoh https://picsum.photos/200 yang mengunduh <i>file</i> dengan ukuran 200 × 200 piksel. Setelah itu, <i>loop</i> akan `sleep` selama 5 detik.
+  ```C
+  child_id2 = fork();
+  
+  // Child process 2
+  if (child_id2 == 0) {
+    for (int i = 0; i < 10; i++) {
+    
+    . . .
+    
+    sleep(5);
+    }
+  }
+  ```
+  <i>Child process</i> akan mengunduh 10 gambar setelah direktori dibuat. Tapi, program utamanya tidak akan menunggu <i>child process</i>-nya (mengunduh gambar) dan langsung `sleep` selama 40 detik selama 40 detik setelah fungsi `fork()` dijalankan.
+  
+  Pada masing-masing <i>loop</i> akan dibuat <i>child process</i> yang masing-masing mengunduh gambar dari <b><i>picsum photos</i></b> menggunakan `wget`.
+  ```C
+  child_id3 = fork();
+                
+  // Child process 3
+  if (child_id3 == 0) {
+      char buffer2[80], location[160], link[80];
+      rawtime = time(NULL);
+
+      timeinfo = localtime(&rawtime);
+      strftime(buffer2, 80, "%Y-%m-%d_%X", timeinfo);
+
+      sprintf(location, "%s/%s", buffer, buffer2);
+      sprintf(link, "https://picsum.photos/%ld", ((rawtime % 1000) + 50));
+
+      char *argv[] = {"wget", "-q", "-O", location, link, NULL};
+      execv("/bin/wget", argv);
+  }
+  ```
+  - Variabel `rawtime` digunakan untuk mengambil <b>Unix epoch</b> yang baru, variabel `timeinfo` untuk mengambil waktu.
+  - Variabel `timeinfo` untuk <i>timestamp</i> baru yang sudah terformat sesuai dengan `localtime`.
+  - Variabel `buffer2` untuk menyimpan waktu saat ini yang sudah diformat menjadi string, variabel `location` untuk menyimpan lokasi output dari `wget`, dan variabel `link` untuk menyimpan alamat tempat mengunduh gambar dari <b><i>picsum photos</i></b>.
+  
+  Variabel `buffer2` akan diformat menggunakan `strftime()` berdasarkan nilai `timeinfo` yang baru. `location` akan diformat menjadi `buffer/buffer2` agar <i>file</i> yang telah diunduh masuk ke dalam folder yang diinginkan. `link` akan diformat sesuai dengan permintaan soal, yaitu `((rawtime % 1000) + 50)`, untuk mendapatkan foto dengan ukuran piksel tersebut, hanya perlu menambahkan nilai ke bagian paling belakang dari tautan https://picsum.photos/. `wget` akan dijalankan sesuai `location` dan `link` yang telah diformat tadi.
 
 ### 3C ###
 
