@@ -224,7 +224,7 @@ Kelompok D-04
       execv("/bin/wget", argv);
   }
   ```
-  - Variabel `rawtime` digunakan untuk mengambil <b>Unix epoch</b> yang baru, variabel `timeinfo` untuk mengambil waktu.
+  - Variabel `rawtime` digunakan untuk mengambil <b>Unix epoch</b> yang baru.
   - Variabel `timeinfo` untuk <i>timestamp</i> baru yang sudah terformat sesuai dengan `localtime`.
   - Variabel `buffer2` untuk menyimpan waktu saat ini yang sudah diformat menjadi string, variabel `location` untuk menyimpan lokasi output dari `wget`, dan variabel `link` untuk menyimpan alamat tempat mengunduh gambar dari <b><i>picsum photos</i></b>.
   
@@ -234,13 +234,105 @@ Kelompok D-04
 
 - <b>SOAL</b>
 
-  Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah file "<i>status.txt</i>", di mana didalamnya berisi pesan <b>"Download Success"</b> yang terenkripsi dengan teknik <b>Caesar Cipher</b> dan dengan shift 5. Caesar Cipher adalah teknik enkripsi sederhana yang di mana dapat melakukan enkripsi string sesuai dengan shift/key yang kita tentukan. Misal huruf <b>"A"</b> akan dienkripsi dengan shift 4 maka akan menjadi "E". Karena Ranora orangnya perfeksionis dan rapi, dia ingin setelah <i>file</i> tersebut dibuat, direktori akan di-<i>zip</i> dan direktori akan di-<i>delete</i>, sehingga menyisakan hanya <i>file zip</i> saja.
+  Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah <i>file</i> "<i>status.txt</i>", di mana didalamnya berisi pesan <b>"Download Success"</b> yang terenkripsi dengan teknik <b>Caesar Cipher</b> dan dengan shift 5. Caesar Cipher adalah teknik enkripsi sederhana yang di mana dapat melakukan enkripsi string sesuai dengan shift/key yang kita tentukan. Misal huruf <b>"A"</b> akan dienkripsi dengan shift 4 maka akan menjadi "E". Karena Ranora orangnya perfeksionis dan rapi, dia ingin setelah <i>file</i> tersebut dibuat, direktori akan di-<i>zip</i> dan direktori akan di-<i>delete</i>, sehingga menyisakan hanya <i>file zip</i> saja.
+  
+- <b>JAWABAN</b>
+
+  Pada bagian ini, setelah selesai <i>loop</i> untuk mengunduh 10 gambar, program akan melakukan `fork()` dan membuat sebuah <i>file</i> <i>status.txt</i> yang berisi enkripsi <b>"Download Success"</b> dengan teknik <b>Caesar Cipher</b> shift 5. Referensi tentang <i>source code</i> Caesar Cipher bisa dicari di internet.
+  ```C
+  while (wait(NULL) > 0);
+
+  child_id4 = fork();
+  
+  // Child process 4
+  if (child_id4 == 0) {
+    char message[80] = "Download Success", file_name[160];
+    
+    for (int j = 0; j < strlen(message); j++) {
+        if (message[j] >= 'a' && message[j] <= 'z') {
+            message[j] += 5;
+
+            if (temp > 'z') {
+                message[j] = message[j] - 'z' + 'a' - 1;
+            }
+        }
+
+        else if (message[j] >= 'A' && message[j] <= 'Z') {
+            message[j] += 5;
+
+            if (temp > 'Z') {
+                message[j] = message[j] - 'Z' + 'A' - 1;
+            }
+        }
+    }
+    
+    sprintf(file_name, "%s/%s", buffer, "status.txt");
+    FILE *txt = fopen(file_name, "w");
+
+    fputs(message, txt);
+    fclose(txt);
+                
+    . . .
+    
+  }
+  ```
+  - Variabel `message` untuk menyimpan <b>"Download Success"</b> yang akan dienkripsi dan variabel `file_name` sebesar <b>160</b> menyimpan hasil enkripsi <b>Caesar Cipher</b>.
+  - `sprintf` pertama untuk menulis string dengan format `buffer/status.txt` ke variabel `file_name`.
+  - `txt` sebagai pointer ke <i>file</i>.
+  - `fopen` digunakan untuk membuka <i>file</i> yang diinginkan, menggunakan command `W` untuk membuat <i>file</i> baru dan melakukan proses <i>writing</i>.
+  - `fputs` digunakan untuk menyimpan string `message` ke dalam `txt`. 
+  -  `fclose` digunakan untuk menutup koneksi dari `txt`.
+  
+  Selanjutnya, program akan melakukan `execv` dengan perintah `zip`. <i>Parent process</i> akan menunggu sampai seluruh unduhan `wget` selesai. Terakhir, <i>parent process</i> akan menunggu <i>child process</i> selesai dan menghapus direktori folder yang telah di-`zip`.
+  ```C
+  if (child_id4 == 0) {
+    
+    . . .
+
+    sprintf(file_name, "%s.zip", buffer);
+
+    char *argv[] = {"zip", "-r", file_name, buffer, NULL};
+    execv("/bin/zip", argv);
+  }
+  
+  while (wait(NULL) != child_id4);
+            
+  char *argv[] = {"rm", "-r", buffer, NULL};
+  execv("/bin/rm", argv);
+  ```
+  <i>Command zip</i> `-r` digunakan agar zip direktori dilakukan secara rekursif dan `-q` agar output log dari <i>command</i> tidak dicetak. Sedangkan <i>Command remove</i> `-r` agar melakukan proses <i>remove</i> secara rekursif juga.
 
 ### 3D ###
 
 - <b>SOAL</b>
 
   Untuk mempermudah pengendalian program, pembimbing magang Ranora ingin program tersebut akan men-<i>generate</i> sebuah program <b>"Killer"</b> yang <i>executable</i>, di mana program tersebut akan menterminasi semua proses program yang sedang berjalan dan akan menghapus dirinya sendiri setelah program dijalankan. Karena Ranora menyukai sesuatu hal yang baru, maka Ranora memiliki ide untuk program <b>"Killer"</b> yang dibuat nantinya harus merupakan program <b>Bash</b>.
+
+- <b>JAWABAN</b>
+  
+  Setelah semua proses di atas, men-<i>generate</i> program <b>"Killer"</b> dengan <i>file</i> bernama <i>Killer.sh</i> dan penginputannya melalui program C yang telah dibuat. Program C ini akan melakukan `pkill` sesuai Session ID (`sid`) yang telah di-set dan melakukan `rm` terhadap <i>file</i> <b>"Killer"</b>.
+  ```C
+  FILE *killer_prog = fopen("killer.sh", "w");
+  ```
+  - `killer_prog` sebagai pointer ke <i>file</i>.
+  - `fopen` digunakan untuk membuka <i>file</i> yang diinginkan, menggunakan command `W` untuk membuat <i>file</i> baru dan melakukan proses <i>writing</i>.
+  
+  Pendeklarasian di atas dilakukan sebelum <i>loop</i> utama daemon dan setelah mendapatkan Session ID (`sid`).
+  
+  Lalu, <i>file killer.sh</i> diinputkan dengan string untuk melakukan proses `pkill`sesuai dengan Session ID (`sid`) dari program utama. Hal ini dilakukan juga agar seluruh <i>child process</i> juga ikut di-`kill`. Setelah itu, program <b>"Killer"</b> akan menghapus dirinya sendiri.
+  ```C
+  char *inputan = ""
+  "#!/bin/bash\n"
+  "killall -9 ./soal3\n"
+  "rm $0\n";
+  fprintf(killer_prog, inputan, sid);
+  ```
+  `fork()` dijalankan sehingga <i>child process</i> akan melakukan `pkill` dan <i>parent process</i> akan menunggu <i>child process</i> melakukan `rm`. String di-<i>write</i> ke dalam `killer_prog` dengan fungsi `fprintf()`.
+  
+  Lalu `killer_prog` akan ditutup koneksinya menggunakan `fclose()`.
+  ```C
+  fclose(killer_prog);
+  ```
 
 ### 3E ###
 
