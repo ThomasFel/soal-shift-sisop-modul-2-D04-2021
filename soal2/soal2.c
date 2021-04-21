@@ -227,8 +227,6 @@ int main() {
                 fprintf(txt, "umur : %s tahun\n\n", umur2);
  
                 fclose(txt);
- 
-                while (wait(NULL) > 0);
             }
  
             child_id6 = fork();
