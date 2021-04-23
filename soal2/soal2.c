@@ -70,15 +70,15 @@ int main() {
                 temp2[i] = temp[i];
             }
  
-            for (int i = 0; i < index && flag == 0; i++) {
-                if (strcmp(folder[i], temp) == 0) {
-                    flag = 1;
-                }
-            }
- 
             if (flag == 0) {
                 strcpy(folder[index], temp2);
                 index++;
+            }
+ 
+            for (int i = 0; i < index; i++) {
+                if (strcmp(folder[i], temp) == 0) {
+                    flag = 1;
+                }
             }
         }
     }
