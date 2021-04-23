@@ -46,17 +46,21 @@ Kelompok D-04
   else
   {
       child_id_2 = fork();
+      
       if(child_id_2 < 0)
       {
           exit(EXIT_FAILURE);
       }
+      
       if(child_id_2 == 0)
       {
           child_id_3 = fork();
+          
           if(child_id_3 < 0)
           {
               exit(EXIT_FAILURE);
           }
+          
           if (child_id_3 == 0)
           {
               //Download Foto
@@ -101,21 +105,25 @@ Kelompok D-04
   struct dirent *file;
   chdir("./FOTO/");
   folder = opendir(".");
+  
   if(folder)
   {
       while((file = readdir(folder)) != NULL)
       {
           child_id_9 = fork();
+          
           if(child_id_9 == 0)
           {
               char *argv[] = {"mv", file->d_name, "../Pyoto/", NULL};
               execv("/bin/mv",argv);
           }
+          
           else
           {
               while((wait(&status)) > 0);
           }
       }
+      
       closedir(folder);
       chdir("../");
   }
@@ -144,42 +152,42 @@ Kelompok D-04
   #include <string.h>
 
   int main() {
-    pid_t pid, sid;        // Variabel untuk menyimpan PID
+       pid_t pid, sid;        // Variabel untuk menyimpan PID
 
-    pid = fork();     // Menyimpan PID dari Child Process
+       pid = fork();     // Menyimpan PID dari Child Process
 
-    /* Keluar saat fork gagal
-    * (nilai variabel pid < 0) */
-    if (pid < 0) {
-      exit(EXIT_FAILURE);
-    }
+       /* Keluar saat fork gagal
+       * (nilai variabel pid < 0) */
+       if (pid < 0) {
+            exit(EXIT_FAILURE);
+       }
 
-    /* Keluar saat fork berhasil
-    * (nilai variabel pid adalah PID dari child process) */
-    if (pid > 0) {
-      exit(EXIT_SUCCESS);
-    }
+       /* Keluar saat fork berhasil
+       * (nilai variabel pid adalah PID dari child process) */
+       if (pid > 0) {
+            exit(EXIT_SUCCESS);
+       }
 
-    umask(0);
+       umask(0);
 
-    sid = setsid();
-    if (sid < 0) {
-      exit(EXIT_FAILURE);
-    }
+       sid = setsid();
+       if (sid < 0) {
+            exit(EXIT_FAILURE);
+       }
 
-    if ((chdir("/")) < 0) {
-      exit(EXIT_FAILURE);
-    }
+       if ((chdir("/")) < 0) {
+            exit(EXIT_FAILURE);
+       }
 
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(STDERR_FILENO);
+       close(STDIN_FILENO);
+       close(STDOUT_FILENO);
+       close(STDERR_FILENO);
 
-    while (1) {
-      // Tulis program kalian di sini
+       while (1) {
+            // Tulis program kalian di sini
 
-      sleep(30);
-    }
+            sleep(30);
+      }
   }
   ```
   
@@ -195,23 +203,26 @@ Kelompok D-04
   ```C
   else if (waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 22 && waktu->tm_min == 22 && waktu->tm_sec == 0)
   {
-    pid_t child_id_13;
-    child_id_13 = fork();
-    if(child_id_13 < 0)
-    {
-        exit(EXIT_FAILURE);
-    }
-    if(child_id_13 == 0)
-    {
-        char *argv[] = {"zip", "-qrm", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", NULL};
-        execv("/usr/bin/zip", argv);
-    }
-    else
-    {
-        while((wait(&status)) > 0);
-        char *argv[] = {"rm", "-r", "FOTO", "MUSIK", "FILM", NULL};
-        execv("/bin/rm",argv);
-    }
+       pid_t child_id_13;
+       child_id_13 = fork();
+       
+       if(child_id_13 < 0)
+       {
+           exit(EXIT_FAILURE);
+       }
+       
+       if(child_id_13 == 0)
+       {
+           char *argv[] = {"zip", "-qrm", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", NULL};
+           execv("/usr/bin/zip", argv);
+       }
+    
+       else
+       {
+           while((wait(&status)) > 0);
+           char *argv[] = {"rm", "-r", "FOTO", "MUSIK", "FILM", NULL};
+           execv("/bin/rm",argv);
+       }
   }
   ```
     Di sini sesuai jadwal yang telah ditentukan pada `if` maka program akan men-<i>zip</i> folder-folder yang diinginkan kemudian akan menghapus folder sisanya yang tidak terpakai dengan perintah `zip` untuk menzip dan `rm` untuk menghapus.
