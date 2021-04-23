@@ -301,42 +301,38 @@ Kelompok D-04
 
 
   int main() {
-    pid_t pid, sid;        // Variabel untuk menyimpan PID
+       pid_t pid, sid;        // Variabel untuk menyimpan PID
 
-    pid = fork();     // Menyimpan PID dari Child Process
+       pid = fork();     // Menyimpan PID dari Child Process
 
-    /* Keluar saat fork gagal
-    * (nilai variabel pid < 0) */
-    if (pid < 0) {
-      exit(EXIT_FAILURE);
-    }
+       /* Keluar saat fork gagal
+       * (nilai variabel pid < 0) */
+       if (pid < 0) {
+           exit(EXIT_FAILURE);
+       }
 
-    /* Keluar saat fork berhasil
-    * (nilai variabel pid adalah PID dari child process) */
-    if (pid > 0) {
-      exit(EXIT_SUCCESS);
-    }
+       /* Keluar saat fork berhasil
+       * (nilai variabel pid adalah PID dari child process) */
+       if (pid > 0) {
+            exit(EXIT_SUCCESS);
+       }
 
-    umask(0);
+       umask(0);
 
-    sid = setsid();
-    if (sid < 0) {
-      exit(EXIT_FAILURE);
-    }
+       sid = setsid();
+       if (sid < 0) {
+            exit(EXIT_FAILURE);
+       }
 
-    if ((chdir("/")) < 0) {
-      exit(EXIT_FAILURE);
-    }
+       close(STDIN_FILENO);
+       close(STDOUT_FILENO);
+       close(STDERR_FILENO);
 
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(STDERR_FILENO);
+       while (1) {
+            // Tulis program kalian di sini
 
-    while (1) {
-      // Tulis program kalian di sini
-
-      sleep(30);
-    }
+            sleep(30);
+       }
   }
   ```
   Di sini ketambahan library baru, yaitu `<wait.h>` untuk melakukan fungsi wait, dan `time.h` untuk manipulasi <i>date dan time</i>.
@@ -363,8 +359,8 @@ Kelompok D-04
 
   // Child process 1
   if (child_id == 0) {
-      char *argv[] = {"mkdir", buffer, NULL};
-      execv("/bin/mkdir", argv);
+       char *argv[] = {"mkdir", buffer, NULL};
+       execv("/bin/mkdir", argv);
   }
   
   ...
@@ -387,12 +383,13 @@ Kelompok D-04
   
   // Child process 2
   if (child_id2 == 0) {
-    for (int i = 0; i < 10; i++) {
+       for (int i = 0; i < 10; i++) {
     
-    . . .
+       . . .
     
-    sleep(5);
-    }
+       sleep(5);
+       
+       }
   }
   ```
   <i>Child process</i> akan mengunduh 10 gambar setelah direktori dibuat. Tapi, program utamanya tidak akan menunggu <i>child process</i>-nya (mengunduh gambar) dan langsung `sleep` selama 40 detik selama 40 detik setelah fungsi `fork()` dijalankan.
@@ -403,17 +400,17 @@ Kelompok D-04
                 
   // Child process 3
   if (child_id3 == 0) {
-      char buffer2[80], location[160], link[80];
-      rawtime = time(NULL);
+       char buffer2[80], location[160], link[80];
+       rawtime = time(NULL);
 
-      timeinfo = localtime(&rawtime);
-      strftime(buffer2, 80, "%Y-%m-%d_%X", timeinfo);
+       timeinfo = localtime(&rawtime);
+       strftime(buffer2, 80, "%Y-%m-%d_%X", timeinfo);
 
-      sprintf(location, "%s/%s", buffer, buffer2);
-      sprintf(link, "https://picsum.photos/%ld", ((rawtime % 1000) + 50));
+       sprintf(location, "%s/%s", buffer, buffer2);
+       sprintf(link, "https://picsum.photos/%ld", ((rawtime % 1000) + 50));
 
-      char *argv[] = {"wget", "-q", "-O", location, link, NULL};
-      execv("/bin/wget", argv);
+       char *argv[] = {"wget", "-q", "-O", location, link, NULL};
+       execv("/bin/wget", argv);
   }
   ```
   - Variabel `rawtime` digunakan untuk mengambil <b>Unix epoch</b> yang baru.
@@ -438,33 +435,33 @@ Kelompok D-04
   
   // Child process 4
   if (child_id4 == 0) {
-    char message[80] = "Download Success", file_name[160];
-    
-    for (int j = 0; j < strlen(message); j++) {
-        if (message[j] >= 'a' && message[j] <= 'z') {
-            message[j] += 5;
+       char message[80] = "Download Success", file_name[160];
 
-            if (message[j] > 'z') {
-                message[j] = message[j] - 'z' + 'a' - 1;
-            }
-        }
+       for (int j = 0; j < strlen(message); j++) {
+           if (message[j] >= 'a' && message[j] <= 'z') {
+               message[j] += 5;
 
-        else if (message[j] >= 'A' && message[j] <= 'Z') {
-            message[j] += 5;
+               if (message[j] > 'z') {
+                   message[j] = message[j] - 'z' + 'a' - 1;
+               }
+           }
 
-            if (message[j] > 'Z') {
-                message[j] = message[j] - 'Z' + 'A' - 1;
-            }
-        }
-    }
-    
-    sprintf(file_name, "%s/%s", buffer, "status.txt");
-    FILE *txt = fopen(file_name, "w");
+           else if (message[j] >= 'A' && message[j] <= 'Z') {
+               message[j] += 5;
 
-    fputs(message, txt);
-    fclose(txt);
-                
-    . . .
+               if (message[j] > 'Z') {
+                   message[j] = message[j] - 'Z' + 'A' - 1;
+               }
+           }
+       }
+
+       sprintf(file_name, "%s/%s", buffer, "status.txt");
+       FILE *txt = fopen(file_name, "w");
+
+       fputs(message, txt);
+       fclose(txt);
+
+      . . .
     
   }
   ```
@@ -478,13 +475,13 @@ Kelompok D-04
   Selanjutnya, program akan melakukan `execv` dengan perintah `zip`. <i>Parent process</i> akan menunggu sampai seluruh unduhan `wget` selesai. Terakhir, <i>parent process</i> akan menunggu <i>child process</i> selesai dan menghapus direktori folder yang telah di-`zip`.
   ```C
   if (child_id4 == 0) {
-    
-    . . .
+         
+       . . .
 
-    sprintf(file_name, "%s.zip", buffer);
+       sprintf(file_name, "%s.zip", buffer);
 
-    char *argv[] = {"zip", "-r", file_name, buffer, NULL};
-    execv("/bin/zip", argv);
+       char *argv[] = {"zip", "-r", file_name, buffer, NULL};
+       execv("/bin/zip", argv);
   }
   
   while (wait(NULL) != child_id4);
@@ -538,17 +535,17 @@ Kelompok D-04
   ```C
   int main(int argc, char *argv[]) {
     
-    // Jika banyaknya argumen salah
-    if (argc != 2) {
-        printf("ERROR! Argumen salah!\n");
-        return 1;
-    }
+       // Jika banyaknya argumen salah
+       if (argc != 2) {
+           printf("ERROR! Argumen salah!\n");
+           return 1;
+       }
 
-    // Jika argumen yang dimasukkan salah
-    if (strcmp(argv[1], "-z") != 0 && strcmp(argv[1], "-x") != 0) {
-        printf("ERROR! Mode salah!\n");
-        return 1;
-    }
+       // Jika argumen yang dimasukkan salah
+       if (strcmp(argv[1], "-z") != 0 && strcmp(argv[1], "-x") != 0) {
+           printf("ERROR! Mode salah!\n");
+           return 1;
+       }
     
     . . .
     
