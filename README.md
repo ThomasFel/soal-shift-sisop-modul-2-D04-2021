@@ -12,24 +12,110 @@ Kelompok D-04
 - <b>SOAL</b>
 
   Dikarenakan Stevany sangat menyukai huruf <b>Y</b>, Steven ingin nama folder-foldernya adalah <b>Musyik</b> untuk mp3, <b>Fylm</b> untuk mp4, dan <b>Pyoto</b> untuk jpg.
+  
+- <b>JAWABAN</b>
+  Untuk no 1A pertama akan dilakukan spawning process untuk membuat folder-folder yang diinginkan dengan cara sebagai berikut
+  ```
+  child_id = fork();
+    
+        if(child_id < 0)
+        {
+            exit(EXIT_FAILURE);
+        }
+    
+        if(child_id == 0)
+        {
+            //Buat Folder
+            char *argv[] = {"mkdir","Musyik","Pyoto","Fylm",NULL};
+            execv("/bin/mkdir",argv);
+        }
+   ```
+   Disini pertama akan melakukan fork kemudian di dalam fork tersebut parent child process akan membuat folder-folder yang diinginkan dengan perintah `execv` dengan parameter `argv` yang didalamnya terdapat perintah `mkdir` untuk membuat folder dengan nama yang diinginkan.
 
 ### 1B ###
 
 - <b>SOAL</b>
 
   Untuk musik Steven <b>men-<i>download</i>-nya</b> dari link di bawah, film dari link di bawah lagi, dan foto dari link di bawah juga :).
+  
+- <b>JAWABAN</b>
+  Untuk soal 1B didalam parent process akan melakukan forking lagi untuk melakukan download seperti berikut
+  ```
+  else
+        {
+            child_id_2 = fork();
+            if(child_id_2 < 0)
+            {
+                exit(EXIT_FAILURE);
+            }
+            if(child_id_2 == 0)
+            {
+                child_id_3 = fork();
+                if(child_id_3 < 0)
+                {
+                    exit(EXIT_FAILURE);
+                }
+                if (child_id_3 == 0)
+                {
+                    //Download Foto
+                    char *argv[] = {"wget","-q","--no-check-certificate","https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download","-O","Foto_for_Stevany.zip",NULL};
+                    execv("/usr/bin/wget",argv);
+                }
+   ```
+   Disini akan dilakukan download untuk setiap zip yang berbeda dengan cara yang sama yaitu dengan menggunakan perintah `wget`, dimana program akan melakukan spawning process untuk setiap kali melakukan download.
 
 ### 1C ###
 
 - <b>SOAL</b>
 
   Steven tidak ingin isi folder yang dibuatnya berisikan <i>zip</i>, sehingga perlu <b>meng-<i>extract</i>-nya</b> setelah di-<i>download</i>.
+  
+- <b>JAWABAN</b>
+  Untuk soal 1C program akan melakukan unzip untuk setiap file zip yang telah di download secara berurutan dengan cara sebagai berikut
+  ```
+  else
+                {
+                    //unzip Foto
+                    while((wait(&status)) > 0);
+                    char *argv[] = {"unzip","-oq","Foto_for_Stevany.zip",NULL};
+                    execv("/usr/bin/unzip",argv);
+                }
+  ```
+  disini program pertama-tama melakukan menunggu dulu download sebuah file zip selesai dengan fungsi `wait` yang ada di setiap process sehingga setiap kali program mendownload akan ditunggu dulu hingga satu zip terdownload lalu file zip tersebut akan di unzip dan kemudian akan lanjut ke download selanjutnya.
 
 ### 1D ###
 
 - <b>SOAL</b>
 
   Memindahkan <i>file extract</i> tadi ke dalam folder yang telah dibuat (hanya <i>file</i> yang dimasukkan).
+  
+- <b>JAWABAN</b>
+  Untuk soal 1D kita disuruh untuk memindahkan file dari hasil yang sudah di unzip ke file-file yang sudah dibuat dengan cara berikut
+  ```
+  DIR *folder;
+                            struct dirent *file;
+                            chdir("./FOTO/");
+                            folder = opendir(".");
+                            if(folder)
+                            {
+                                while((file = readdir(folder)) != NULL)
+                                {
+                                    child_id_9 = fork();
+                                    if(child_id_9 == 0)
+                                    {
+                                        char *argv[] = {"mv", file->d_name, "../Pyoto/", NULL};
+                                        execv("/bin/mv",argv);
+                                    }
+                                    else
+                                    {
+                                        while((wait(&status)) > 0);
+                                    }
+                                }
+                                closedir(folder);
+                                chdir("../");
+                            }
+  ```
+  pertama kita menggunakan library `<dirent.h>` yang didalamnya terdapat fungsi `opendir` untuk membukan isi folder dan kemudian di looping dengan parameter fungsi `readdir` untuk membaca isi folder sehingga file-file yang ada di dalam folder bisa dipindahkan. Kemudian setelah file-file didalam folder bisa terbaca selanjutnya dengan menggunakan perintah `mv` didalam `execv` maka file-file tersebut akan dipindahkan ke file tujuan.
 
 ### 1E ###
 
@@ -37,6 +123,93 @@ Kelompok D-04
 
   Untuk memudahkan Steven, ia ingin semua hal di atas berjalan <b>otomatis</b> 6 jam sebelum waktu ulang tahun Stevany.
   Setelah itu pada <b>waktu</b> ulang tahunnya Stevany, semua folder akan di-<i>zip</i> dengan nama <i>Lopyu_Stevany.zip</i> dan semua folder akan <b>di-<i>delete</i></b> (sehingga hanya menyisakan .zip).
+  
+- <b>JAWABAN</b>
+  Untuk soal 1E disuruh untuk menjalankannya secara otomatis pada waktu yang telah ditentukan kemudian menzip folder-folder yang telah dibuat dengan cara berikut ini
+  ```
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <fcntl.h>
+  #include <errno.h>
+  #include <unistd.h>
+  #include <syslog.h>
+  #include <string.h>
+
+  int main() {
+    pid_t pid, sid;        // Variabel untuk menyimpan PID
+
+    pid = fork();     // Menyimpan PID dari Child Process
+
+    /* Keluar saat fork gagal
+    * (nilai variabel pid < 0) */
+    if (pid < 0) {
+      exit(EXIT_FAILURE);
+    }
+
+    /* Keluar saat fork berhasil
+    * (nilai variabel pid adalah PID dari child process) */
+    if (pid > 0) {
+      exit(EXIT_SUCCESS);
+    }
+
+    umask(0);
+
+    sid = setsid();
+    if (sid < 0) {
+      exit(EXIT_FAILURE);
+    }
+
+    if ((chdir("/")) < 0) {
+      exit(EXIT_FAILURE);
+    }
+
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+
+    while (1) {
+      // Tulis program kalian di sini
+
+      sleep(30);
+    }
+  }
+  ```
+  Pertama menggunakan template daemon dari github modul 2 agar program bisa berjalan di background. kemudian dengan menggunakan library `time.h`  untuk mengatur jadwalnya seperti berikut
+  ```
+  time_t jadwal = time(NULL);
+    struct tm *waktu = localtime(&jadwal);
+    int status;
+    if(waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 16 && waktu->tm_min == 22 && waktu->tm_sec == 0 )
+  ```
+  kemudian setelah ada penjadwalan seperti ini maka selanjutnya tinggal menzip dan remove folder seperti perintah pada soal sesuai jadwal yang telah diinginkan sebagai berikut
+  ```
+  else if (waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 22 && waktu->tm_min == 22 && waktu->tm_sec == 0)
+    {
+    pid_t child_id_13;
+        child_id_13 = fork();
+        if(child_id_13 < 0)
+        {
+            exit(EXIT_FAILURE);
+        }
+        if(child_id_13 == 0)
+        {
+            char *argv[] = {"zip", "-qrm", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", NULL};
+            execv("/usr/bin/zip", argv);
+        }
+        else
+        {
+            while((wait(&status)) > 0);
+            char *argv[] = {"rm", "-r", "FOTO", "MUSIK", "FILM", NULL};
+            execv("/bin/rm",argv);
+        }
+    }
+    ```
+    disini sesuai jadwal yang telah ditentukan pada `if` maka program akan menzip folder-folder yang diinginkan kemudian akan menghapus folder sisanya yang tidak terpakai dengan perintah `zip` untuk menzip dan `rm` untuk menghapus.
+    
+    error yang dialami dalam mengerjakan soal ini yaitu ketika melakukan process spawning karena bingung ketika meletakkan variabel `child_id` kemudian untuk move file dimana terjadi beberapa error karena adanya kesalahan tujuan direktori.
+  
  
 ## SOAL 2 ## 
  
