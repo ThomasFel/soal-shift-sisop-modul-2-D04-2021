@@ -14,23 +14,24 @@ Kelompok D-04
   Dikarenakan Stevany sangat menyukai huruf <b>Y</b>, Steven ingin nama folder-foldernya adalah <b>Musyik</b> untuk mp3, <b>Fylm</b> untuk mp4, dan <b>Pyoto</b> untuk jpg.
   
 - <b>JAWABAN</b>
-  Untuk no 1A pertama akan dilakukan spawning process untuk membuat folder-folder yang diinginkan dengan cara sebagai berikut
-  ```
+  
+  Untuk no 1A pertama akan dilakukan <i>spawning process</i> untuk membuat folder-folder yang diinginkan dengan cara sebagai berikut:
+  ```C
   child_id = fork();
     
-        if(child_id < 0)
-        {
-            exit(EXIT_FAILURE);
-        }
-    
-        if(child_id == 0)
-        {
-            //Buat Folder
-            char *argv[] = {"mkdir","Musyik","Pyoto","Fylm",NULL};
-            execv("/bin/mkdir",argv);
-        }
-   ```
-   Disini pertama akan melakukan fork kemudian di dalam fork tersebut parent child process akan membuat folder-folder yang diinginkan dengan perintah `execv` dengan parameter `argv` yang didalamnya terdapat perintah `mkdir` untuk membuat folder dengan nama yang diinginkan.
+  if(child_id < 0)
+  {
+      exit(EXIT_FAILURE);
+  }
+
+  if(child_id == 0)
+  {
+      //Buat Folder
+      char *argv[] = {"mkdir","Musyik","Pyoto","Fylm",NULL};
+      execv("/bin/mkdir",argv);
+  }
+  ```
+   Di sini pertama akan melakukan fork kemudian di dalam fork tersebut <i>parent child process</i> akan membuat folder-folder yang diinginkan dengan perintah `execv` dengan parameter `argv` yang didalamnya terdapat perintah `mkdir` untuk membuat folder dengan nama yang diinginkan.
 
 ### 1B ###
 
@@ -39,30 +40,32 @@ Kelompok D-04
   Untuk musik Steven <b>men-<i>download</i>-nya</b> dari link di bawah, film dari link di bawah lagi, dan foto dari link di bawah juga :).
   
 - <b>JAWABAN</b>
-  Untuk soal 1B didalam parent process akan melakukan forking lagi untuk melakukan download seperti berikut
-  ```
+  
+  Untuk soal 1B didalam <i>parent process</i> akan melakukan <i>forking</i> lagi untuk melakukan download seperti berikut:
+  ```C
   else
-        {
-            child_id_2 = fork();
-            if(child_id_2 < 0)
-            {
-                exit(EXIT_FAILURE);
-            }
-            if(child_id_2 == 0)
-            {
-                child_id_3 = fork();
-                if(child_id_3 < 0)
-                {
-                    exit(EXIT_FAILURE);
-                }
-                if (child_id_3 == 0)
-                {
-                    //Download Foto
-                    char *argv[] = {"wget","-q","--no-check-certificate","https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download","-O","Foto_for_Stevany.zip",NULL};
-                    execv("/usr/bin/wget",argv);
-                }
+  {
+      child_id_2 = fork();
+      if(child_id_2 < 0)
+      {
+          exit(EXIT_FAILURE);
+      }
+      if(child_id_2 == 0)
+      {
+          child_id_3 = fork();
+          if(child_id_3 < 0)
+          {
+              exit(EXIT_FAILURE);
+          }
+          if (child_id_3 == 0)
+          {
+              //Download Foto
+              char *argv[] = {"wget","-q","--no-check-certificate","https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download","-O","Foto_for_Stevany.zip",NULL};
+              execv("/usr/bin/wget",argv);
+          }
+   }
    ```
-   Disini akan dilakukan download untuk setiap zip yang berbeda dengan cara yang sama yaitu dengan menggunakan perintah `wget`, dimana program akan melakukan spawning process untuk setiap kali melakukan download.
+   Di sini akan dilakukan <i>download</i> untuk setiap zip yang berbeda dengan cara yang sama yaitu dengan menggunakan perintah `wget`, program akan melakukan <i>spawning process</i> untuk setiap kali melakukan <i>download</i>.
 
 ### 1C ###
 
@@ -71,17 +74,18 @@ Kelompok D-04
   Steven tidak ingin isi folder yang dibuatnya berisikan <i>zip</i>, sehingga perlu <b>meng-<i>extract</i>-nya</b> setelah di-<i>download</i>.
   
 - <b>JAWABAN</b>
-  Untuk soal 1C program akan melakukan unzip untuk setiap file zip yang telah di download secara berurutan dengan cara sebagai berikut
-  ```
+  
+  Untuk soal 1C program akan melakukan <i>unzip</i> untuk setiap file zip yang telah di-<i>download</i> secara berurutan dengan cara sebagai berikut:
+  ```C
   else
-                {
-                    //unzip Foto
-                    while((wait(&status)) > 0);
-                    char *argv[] = {"unzip","-oq","Foto_for_Stevany.zip",NULL};
-                    execv("/usr/bin/unzip",argv);
-                }
+  {
+      //unzip Foto
+      while((wait(&status)) > 0);
+      char *argv[] = {"unzip","-oq","Foto_for_Stevany.zip",NULL};
+      execv("/usr/bin/unzip",argv);
+  }
   ```
-  disini program pertama-tama melakukan menunggu dulu download sebuah file zip selesai dengan fungsi `wait` yang ada di setiap process sehingga setiap kali program mendownload akan ditunggu dulu hingga satu zip terdownload lalu file zip tersebut akan di unzip dan kemudian akan lanjut ke download selanjutnya.
+  Di sini program pertama-tama melakukan menunggu dulu <i>download</i> sebuah <i>file</i> zip selesai dengan fungsi `wait` yang ada di setiap <i>process</i> sehingga setiap kali program men-<i>download</i> akan ditunggu dulu hingga satu zip ter-<i>download</i> lalu file zip tersebut akan di-<i>unzip</i> dan kemudian akan lanjut ke <i>download</i> selanjutnya.
 
 ### 1D ###
 
@@ -90,32 +94,33 @@ Kelompok D-04
   Memindahkan <i>file extract</i> tadi ke dalam folder yang telah dibuat (hanya <i>file</i> yang dimasukkan).
   
 - <b>JAWABAN</b>
-  Untuk soal 1D kita disuruh untuk memindahkan file dari hasil yang sudah di unzip ke file-file yang sudah dibuat dengan cara berikut
-  ```
+  
+  Untuk soal 1D kita disuruh untuk memindahkan file dari hasil yang sudah di-<i>unzip</i> ke file-file yang sudah dibuat dengan cara berikut:
+  ```C
   DIR *folder;
-                            struct dirent *file;
-                            chdir("./FOTO/");
-                            folder = opendir(".");
-                            if(folder)
-                            {
-                                while((file = readdir(folder)) != NULL)
-                                {
-                                    child_id_9 = fork();
-                                    if(child_id_9 == 0)
-                                    {
-                                        char *argv[] = {"mv", file->d_name, "../Pyoto/", NULL};
-                                        execv("/bin/mv",argv);
-                                    }
-                                    else
-                                    {
-                                        while((wait(&status)) > 0);
-                                    }
-                                }
-                                closedir(folder);
-                                chdir("../");
-                            }
+  struct dirent *file;
+  chdir("./FOTO/");
+  folder = opendir(".");
+  if(folder)
+  {
+      while((file = readdir(folder)) != NULL)
+      {
+          child_id_9 = fork();
+          if(child_id_9 == 0)
+          {
+              char *argv[] = {"mv", file->d_name, "../Pyoto/", NULL};
+              execv("/bin/mv",argv);
+          }
+          else
+          {
+              while((wait(&status)) > 0);
+          }
+      }
+      closedir(folder);
+      chdir("../");
+  }
   ```
-  pertama kita menggunakan library `<dirent.h>` yang didalamnya terdapat fungsi `opendir` untuk membukan isi folder dan kemudian di looping dengan parameter fungsi `readdir` untuk membaca isi folder sehingga file-file yang ada di dalam folder bisa dipindahkan. Kemudian setelah file-file didalam folder bisa terbaca selanjutnya dengan menggunakan perintah `mv` didalam `execv` maka file-file tersebut akan dipindahkan ke file tujuan.
+  Pertama kita menggunakan <i>library</i> `<dirent.h>` yang di dalamnya terdapat fungsi `opendir` untuk membuka isi folder dan kemudian di-<i>looping</i> dengan parameter fungsi `readdir` untuk membaca isi folder sehingga <i>file-file</i> yang ada di dalam folder bisa dipindahkan. Kemudian setelah <i>file-file</i> didalam folder bisa terbaca selanjutnya dengan menggunakan perintah `mv` di dalam `execv` maka <i>file-file</i> tersebut akan dipindahkan ke <i>file</i> tujuan.
 
 ### 1E ###
 
@@ -125,8 +130,9 @@ Kelompok D-04
   Setelah itu pada <b>waktu</b> ulang tahunnya Stevany, semua folder akan di-<i>zip</i> dengan nama <i>Lopyu_Stevany.zip</i> dan semua folder akan <b>di-<i>delete</i></b> (sehingga hanya menyisakan .zip).
   
 - <b>JAWABAN</b>
-  Untuk soal 1E disuruh untuk menjalankannya secara otomatis pada waktu yang telah ditentukan kemudian menzip folder-folder yang telah dibuat dengan cara berikut ini
-  ```
+  
+  Untuk soal 1E disuruh untuk menjalankannya secara otomatis pada waktu yang telah ditentukan kemudian men-<i>zip</i> folder-folder yang telah dibuat dengan cara berikut ini:
+  ```C
   #include <sys/types.h>
   #include <sys/stat.h>
   #include <stdio.h>
@@ -176,39 +182,41 @@ Kelompok D-04
     }
   }
   ```
-  Pertama menggunakan template daemon dari github modul 2 agar program bisa berjalan di background. kemudian dengan menggunakan library `time.h`  untuk mengatur jadwalnya seperti berikut
-  ```
+  
+  Pertama menggunakan template daemon dari github modul 2 agar program bisa berjalan di background. kemudian dengan menggunakan library `time.h`  untuk mengatur jadwalnya seperti berikut:
+  ```C
   time_t jadwal = time(NULL);
-    struct tm *waktu = localtime(&jadwal);
-    int status;
-    if(waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 16 && waktu->tm_min == 22 && waktu->tm_sec == 0 )
+  struct tm *waktu = localtime(&jadwal);
+  int status;
+  if(waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 16 && waktu->tm_min == 22 && waktu->tm_sec == 0 )
   ```
-  kemudian setelah ada penjadwalan seperti ini maka selanjutnya tinggal menzip dan remove folder seperti perintah pada soal sesuai jadwal yang telah diinginkan sebagai berikut
-  ```
+  
+  Kemudian setelah ada penjadwalan seperti ini maka selanjutnya tinggal men-<i>zip</i> dan <i>remove</i> folder seperti perintah pada soal sesuai jadwal yang telah diinginkan sebagai berikut:
+  ```C
   else if (waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 22 && waktu->tm_min == 22 && waktu->tm_sec == 0)
-    {
+  {
     pid_t child_id_13;
-        child_id_13 = fork();
-        if(child_id_13 < 0)
-        {
-            exit(EXIT_FAILURE);
-        }
-        if(child_id_13 == 0)
-        {
-            char *argv[] = {"zip", "-qrm", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", NULL};
-            execv("/usr/bin/zip", argv);
-        }
-        else
-        {
-            while((wait(&status)) > 0);
-            char *argv[] = {"rm", "-r", "FOTO", "MUSIK", "FILM", NULL};
-            execv("/bin/rm",argv);
-        }
+    child_id_13 = fork();
+    if(child_id_13 < 0)
+    {
+        exit(EXIT_FAILURE);
     }
-    ```
-    disini sesuai jadwal yang telah ditentukan pada `if` maka program akan menzip folder-folder yang diinginkan kemudian akan menghapus folder sisanya yang tidak terpakai dengan perintah `zip` untuk menzip dan `rm` untuk menghapus.
+    if(child_id_13 == 0)
+    {
+        char *argv[] = {"zip", "-qrm", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", NULL};
+        execv("/usr/bin/zip", argv);
+    }
+    else
+    {
+        while((wait(&status)) > 0);
+        char *argv[] = {"rm", "-r", "FOTO", "MUSIK", "FILM", NULL};
+        execv("/bin/rm",argv);
+    }
+  }
+  ```
+    Di sini sesuai jadwal yang telah ditentukan pada `if` maka program akan men-<i>zip</i> folder-folder yang diinginkan kemudian akan menghapus folder sisanya yang tidak terpakai dengan perintah `zip` untuk menzip dan `rm` untuk menghapus.
     
-    error yang dialami dalam mengerjakan soal ini yaitu ketika melakukan process spawning karena bingung ketika meletakkan variabel `child_id` kemudian untuk move file dimana terjadi beberapa error karena adanya kesalahan tujuan direktori.
+    Error yang dialami dalam mengerjakan soal ini yaitu ketika melakukan process spawning karena bingung ketika meletakkan variabel `child_id` kemudian untuk <i>move file</i> yang mana terjadi beberapa error karena adanya kesalahan tujuan direktori.
   
  
 ## SOAL 2 ## 
