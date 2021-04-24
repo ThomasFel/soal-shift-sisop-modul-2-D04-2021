@@ -387,6 +387,8 @@ Kelompok D-04
           execv("/bin/mkdir", argv);
       }
   }
+  
+  while (wait(NULL) > 0);
   ```
   <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `folder_tujuan`. Lalu `execv()` terhadap perintah `mkdir` dengan argumen `folder_tujuan` untuk membuat folder baru sesuai jenis hewan yang telah diambil dari penamaan nama <i>file</i> dan <i>command</i> `-p` untuk penanganan error yang akan diabaikan.
 
@@ -397,6 +399,101 @@ Kelompok D-04
   Setelah folder kategori berhasil dibuat, programmu akan memindahkan foto ke folder dengan kategori yang sesuai dan di-<i>rename</i> dengan nama peliharaan.
   
   Contoh: <b>"/petshop/cat/joni.jpg"</b>.
+  
+- <b>JAWABAN</b>
+  
+  Sama seperti soal sebelumnya, menggunakan <i>Directory Listing</i> untuk membantu memindah <i>file</i> ke folder sesuai kategori jenis hewannya. Pertama, deklarasikan variabel `file` untuk menyimpan nama <i>file</i> foto.
+  ```C
+  DIR *dir3 = opendir("/home/thomasfelix/modul2/petshop");
+  struct dirent *direntp3;
+
+  while((direntp3 = readdir(dir3))) {
+      if (direntp3->d_type == DT_REG) {
+          char file[200], nama[200], jenis[200], umur[200];
+          char nama2[200], jenis2[200], umur2[200];
+
+          memset(nama, 0, sizeof(nama));
+          memset(jenis, 0, sizeof(jenis));
+          memset(umur, 0, sizeof(umur));
+          memset(nama2, 0, sizeof(nama2));
+          memset(jenis2, 0, sizeof(jenis2));
+          memset(umur2, 0, sizeof(umur2));
+
+          strcpy(file, direntp3->d_name);
+          
+          int flag = 0, found = 0, found_two = 0;
+          
+          . . .
+          
+  }
+  ```
+  - Perintah `direntp->d_type` digunakan untuk menampung tipe/jenis <i>file</i>. Dilakukan pengondisian jika di dalam direktori berisi file dengan <i>compare</i> `DT_REG`.
+  - Mendeklarasikan variabel `nama`, `jenis`, dan `umur` untuk menyimpan nama, jenis, dan umur hewan pertama dari masing-masing <i>file</i> dan `nama2`, `jenis2`, dan `umur2` untuk menyimpan nama, jenis, dan umur hewan kedua.
+  - Variabel `flag` sebagai penanda untuk pengondisian dalam <i>looping</i> nanti yang membedakan nama, jenis, dan umur hewan, `found` untuk membantu <i>indexing</i> dalam <i>looping</i>, dan `found_two` sebagai variabel hewan kedua yang akan digunakan pada [soal.2d](#2d "Goto 2d").
+  - Fungsi `memset` untuk memastikan bahwa seluruh isi dari `nama`, `jenis`, `umur`, `nama2`, `jenis2`, dan `umur2` bernilai 0 atau NULL.
+  - Dengan fungsi `strcpy` memindah isi dari `direntp3->d_name` ke dalam variabel `file`.
+  
+  Kemudian melakukan <i>looping</i> untuk mencari jenis, nama, dan umur hewan pertama yang ada di dalam penamaan <i>file</i> foto.
+  ```C
+  for (int i = 0; i < strlen(file); i++) {
+  if (flag == 0) {
+      if (file[i] == ';') {
+          flag++;
+          found = i + 1;
+          continue;
+      }
+
+      jenis[i] = file[i];
+  }
+
+  else if (flag == 1) {
+      if (file[i] == ';') {
+          flag++;
+          found = i + 1;
+          continue;
+      }
+
+      nama[i - found] = file[i];
+  }
+
+  else if (flag == 2) {
+      if (file[i] == '_') {
+          flag++;
+          found = i + 1;
+          continue;
+      }
+
+      else if ((file[i] == '.') && (file[i + 1] == 'j')) {
+          break;
+      }
+
+      umur[i - found] = file[i];
+  }
+  
+  . . .
+  
+  ```
+  - Jika `flag` sama dengan 0, menjalankan loop `jenis`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>";"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `jenis` sampai menemukan <b>";"</b>. Lalu jika <i>loop</i> menemukan <b>";"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `nama`.
+  - Jika `flag` sama dengan 1, menjalankan loop `nama`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>";"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `nama` sampai menemukan <b>";"</b>. Lalu jika <i>loop</i> menemukan <b>";"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `jenis`.
+  - Jika `flag` sama dengan 2, menjalankan loop `umur`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>"*_*"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `umur` sampai menemukan <b>"*_*"</b> atau <b>"."</b> dan <b>"j"</b>. Lalu jika <i>loop</i> menemukan <b>"*_*"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `jenis2`, dan jika <i>loop</i> menemukan <b>"*.*"</b> dan <b>"j"</b> akan berhenti (menemukan <i>.jpg</i>).
+  
+  Setelah itu, membuat <i>child</i> baru untuk <i>copy file</i> foto ke foldernya masing-masing.
+  ```C
+  child_id4 = fork();
+ 
+  if (child_id4 == 0) {
+      char origin[450], goal[450];
+
+      sprintf(origin, "/home/thomasfelix/modul2/petshop/%s", direntp3->d_name);
+      sprintf(goal, "/home/thomasfelix/modul2/petshop/%s/%s", jenis, nama);
+
+      char *argv[] = {"cp", "-r", origin, goal, NULL};
+      execv("/bin/cp", argv);
+  }
+
+  while (wait(NULL) > 0);
+  ```
+  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `origin` serta memasukkan jenis dan nama hewan ke variabel `goal`. Lalu `execv()` terhadap perintah `cp` dengan argumen `origin` untuk <i>copy file</i> ke folder sesuai jenis hewan yang telah diambil dari penamaan nama <i>file</i>, kemudian penamaan <i>file</i> dengan nama hewan dan <i>command</i> `-r` untuk <i>copy</i> secara rekursif.
 
 ### 2D ###
 
@@ -405,6 +502,66 @@ Kelompok D-04
   Karena dalam satu foto bisa terdapat lebih dari satu peliharaan, maka foto harus dipindah ke masing-masing kategori yang sesuai.
   
   Contoh: foto dengan nama <b>"dog;baro;1_cat;joni;2.jpg"</b> dipindah ke folder <b>"/petshop/cat/joni.jpg</b> dan <b>"/petshop/dog/baro.jpg</b>.
+  
+- <b>JAWABAN</b>
+  
+  Melanjutkan [soal.2c](#2c "Goto 2c"), di dalam <i>looping</i> melakukan input char satu per satu ke dalam nama, jenis, dan umur hewan kedua.
+  ```C
+  else if (flag == 3) {
+      if (file[i] == ';') {
+          flag++;
+          found = i + 1;
+          continue;
+      }
+
+      jenis2[i - found] = file[i];
+  }
+
+  else if (flag == 4) {
+      if (file[i] == ';') {
+          flag++;
+          found = i + 1;
+          continue;
+      }
+
+      nama2[i - found] = file[i];
+  }
+
+  else if (flag == 5) {
+      if ((file[i] == '.') && (file[i + 1] == 'j')) {
+          found_two = 1;
+          break;
+      }
+
+      umur2[i - found] = file[i];
+  }
+  ```
+  - Jika `flag` sama dengan 3, menjalankan loop `jenis2`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>";"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `jenis2` sampai menemukan <b>";"</b>. Lalu jika <i>loop</i> menemukan <b>";"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `nama2`.
+  - Jika `flag` sama dengan 4, menjalankan loop `nama2`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>";"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `nama2` sampai menemukan <b>";"</b>. Lalu jika <i>loop</i> menemukan <b>";"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `jenis2`.
+  - Jika `flag` sama dengan 5, menjalankan loop `umur2`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>"*_*"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `umur2` sampai menemukan atau <b>"."</b> dan <b>"j"</b>. Lalu jika <i>loop</i> menemukan <b>"*.*"</b> dan <b>"j"</b> akan berhenti (menemukan <i>.jpg</i>) dan variabel `found_two` menjadi 1.
+  
+  Setelah itu, membuat <i>child</i> baru untuk <i>copy file</i> foto hewan kedua ke foldernya masing-masing dengan pengondisian variabel `found_two` sama dengan 1.
+  ```C
+  if (found_two == 1) {
+  child_id5 = fork();
+ 
+  if (child_id5 == 0) {
+      char origin[450], goal[450];
+
+      sprintf(origin, "/home/thomasfelix/modul2/petshop/%s", direntp3->d_name);
+      sprintf(goal, "/home/thomasfelix/modul2/petshop/%s/%s", jenis2, nama2);
+
+      char *argv[] = {"cp", "-r", origin, goal, NULL};
+      execv("/bin/cp", argv);
+  }
+
+  while (wait(NULL) > 0);
+  
+  . . .
+  
+  }
+  ```
+  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `origin` serta memasukkan jenis dan nama hewan ke variabel `goal`. Lalu `execv()` terhadap perintah `cp` dengan argumen `origin` untuk <i>copy file</i> ke folder sesuai jenis hewan kedua yang telah diambil dari penamaan nama <i>file</i>, kemudian penamaan <i>file</i> dengan nama hewan kedua dan <i>command</i> `-r` untuk <i>copy</i> secara rekursif.
 
 ### 2E ###
 
@@ -567,7 +724,7 @@ Kelompok D-04
 
 - <b>SOAL</b>
 
-  Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah <i>file</i> "<i>status.txt</i>", di mana didalamnya berisi pesan <b>"Download Success"</b> yang terenkripsi dengan teknik <b>Caesar Cipher</b> dan dengan shift 5. Caesar Cipher adalah teknik enkripsi sederhana yang di mana dapat melakukan enkripsi string sesuai dengan shift/key yang kita tentukan. Misal huruf <b>"A"</b> akan dienkripsi dengan shift 4 maka akan menjadi "E". Karena Ranora orangnya perfeksionis dan rapi, dia ingin setelah <i>file</i> tersebut dibuat, direktori akan di-<i>zip</i> dan direktori akan di-<i>delete</i>, sehingga menyisakan hanya <i>file zip</i> saja.
+  Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah <i>file</i> "<i>status.txt</i>", di mana didalamnya berisi pesan <b>"Download Success"</b> yang terenkripsi dengan teknik <b>Caesar Cipher</b> dan dengan shift 5. Caesar Cipher adalah teknik enkripsi sederhana yang di mana dapat melakukan enkripsi string sesuai dengan shift/key yang kita tentukan. Misal huruf <b>"A"</b> akan dienkripsi dengan shift 4 maka akan menjadi <b>"E"</b>. Karena Ranora orangnya perfeksionis dan rapi, dia ingin setelah <i>file</i> tersebut dibuat, direktori akan di-<i>zip</i> dan direktori akan di-<i>delete</i>, sehingga menyisakan hanya <i>file zip</i> saja.
   
 - <b>JAWABAN</b>
 
