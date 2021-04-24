@@ -15,7 +15,7 @@ Kelompok D-04
   
 - <b>JAWABAN</b>
   
-  Untuk no 1A pertama akan dilakukan <i>spawning process</i> untuk membuat folder-folder yang diinginkan dengan cara sebagai berikut:
+  Untuk [soal.1a](#1a "Goto 1a") pertama akan dilakukan <i>spawning process</i> untuk membuat folder-folder yang diinginkan dengan cara sebagai berikut:
   ```C
   child_id = fork();
     
@@ -31,7 +31,7 @@ Kelompok D-04
       execv("/bin/mkdir",argv);
   }
   ```
-   Di sini pertama akan melakukan fork kemudian di dalam fork tersebut <i>parent child process</i> akan membuat folder-folder yang diinginkan dengan perintah `execv` dengan parameter `argv` yang didalamnya terdapat perintah `mkdir` untuk membuat folder dengan nama yang diinginkan.
+   Di sini pertama akan melakukan `fork` kemudian di dalam fork tersebut <i>parent child process</i> akan membuat folder-folder yang diinginkan dengan perintah `execv` dengan parameter `argv` yang di dalamnya terdapat perintah `mkdir` untuk membuat folder dengan nama yang diinginkan.
 
 ### 1B ###
 
@@ -41,7 +41,7 @@ Kelompok D-04
   
 - <b>JAWABAN</b>
   
-  Untuk soal 1B didalam <i>parent process</i> akan melakukan <i>forking</i> lagi untuk melakukan download seperti berikut:
+  Untuk [soal.1b](#1b "Goto 1b") di dalam <i>parent process</i> akan melakukan <i>forking</i> lagi untuk melakukan <i>download</i> seperti berikut:
   ```C
   else
   {
@@ -79,7 +79,7 @@ Kelompok D-04
   
 - <b>JAWABAN</b>
   
-  Untuk soal 1C program akan melakukan <i>unzip</i> untuk setiap file zip yang telah di-<i>download</i> secara berurutan dengan cara sebagai berikut:
+  Untuk [soal.1c](#1c "Goto 1c") program akan melakukan <i>unzip</i> untuk setiap <i>file</i> zip yang telah di-<i>download</i> secara berurutan dengan cara sebagai berikut:
   ```C
   else
   {
@@ -89,7 +89,7 @@ Kelompok D-04
       execv("/usr/bin/unzip",argv);
   }
   ```
-  Di sini program pertama-tama melakukan menunggu dulu <i>download</i> sebuah <i>file</i> zip selesai dengan fungsi `wait` yang ada di setiap <i>process</i> sehingga setiap kali program men-<i>download</i> akan ditunggu dulu hingga satu zip ter-<i>download</i> lalu file zip tersebut akan di-<i>unzip</i> dan kemudian akan lanjut ke <i>download</i> selanjutnya.
+  Di sini program pertama-tama melakukan menunggu dulu <i>download</i> sebuah <i>file</i> zip selesai dengan fungsi `wait` yang ada di setiap <i>process</i> sehingga setiap kali program men-<i>download</i> akan ditunggu dulu hingga satu zip ter-<i>download</i> lalu <i>file</i> zip tersebut akan di-<i>unzip</i> dan kemudian akan lanjut ke <i>download</i> selanjutnya.
 
 ### 1D ###
 
@@ -99,7 +99,7 @@ Kelompok D-04
   
 - <b>JAWABAN</b>
   
-  Untuk soal 1D kita disuruh untuk memindahkan file dari hasil yang sudah di-<i>unzip</i> ke file-file yang sudah dibuat dengan cara berikut:
+  Untuk [soal.1d](#1d "Goto 1d") disuruh untuk memindahkan <i>file</i> dari hasil yang sudah di-<i>unzip</i> ke file-file yang sudah dibuat dengan cara berikut:
   ```C
   DIR *folder;
   struct dirent *file;
@@ -139,7 +139,7 @@ Kelompok D-04
   
 - <b>JAWABAN</b>
   
-  Untuk soal 1E disuruh untuk menjalankannya secara otomatis pada waktu yang telah ditentukan kemudian men-<i>zip</i> folder-folder yang telah dibuat dengan cara berikut ini:
+  Untuk [soal.1e](#1e "Goto 1e") disuruh untuk menjalankannya secara otomatis pada waktu yang telah ditentukan kemudian men-<i>zip</i> folder-folder yang telah dibuat dengan cara berikut ini:
   ```C
   #include <sys/types.h>
   #include <sys/stat.h>
@@ -191,7 +191,7 @@ Kelompok D-04
   }
   ```
   
-  Pertama menggunakan template daemon dari github modul 2 agar program bisa berjalan di background. kemudian dengan menggunakan library `time.h`  untuk mengatur jadwalnya seperti berikut:
+  Pertama menggunakan template Daemon dari modul 2 agar program bisa berjalan di <i>background</i>. Kemudian dengan menggunakan <i>library</i> `<time.h>` untuk mengatur jadwalnya seperti berikut:
   ```C
   time_t jadwal = time(NULL);
   struct tm *waktu = localtime(&jadwal);
@@ -225,11 +225,12 @@ Kelompok D-04
        }
   }
   ```
-    Di sini sesuai jadwal yang telah ditentukan pada `if` maka program akan men-<i>zip</i> folder-folder yang diinginkan kemudian akan menghapus folder sisanya yang tidak terpakai dengan perintah `zip` untuk menzip dan `rm` untuk menghapus.
-    
-    Error yang dialami dalam mengerjakan soal ini yaitu ketika melakukan process spawning karena bingung ketika meletakkan variabel `child_id` kemudian untuk <i>move file</i> yang mana terjadi beberapa error karena adanya kesalahan tujuan direktori.
+  Di sini sesuai jadwal yang telah ditentukan pada `if` maka program akan men-<i>zip</i> folder-folder yang diinginkan kemudian akan menghapus folder sisanya yang tidak terpakai dengan perintah `zip` untuk men-<i>zip</i> dan `rm` untuk menghapus.
   
+### KENDALA ###
  
+- <i>Error</i> yang dialami dalam mengerjakan soal ini yaitu ketika melakukan <i>process spawning</i> karena bingung ketika meletakkan variabel `child_id` kemudian untuk <i>move file</i> yang mana terjadi beberapa <i>error</i> karena adanya kesalahan tujuan direktori.
+
 ## SOAL 2 ## 
  
 ### 2A ###
@@ -625,7 +626,11 @@ Kelompok D-04
   ```
   <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama jenis hewan ke dalam variabel `del`. Lalu `execv()` terhadap perintah `rm` dengan argumen `del` untuk menghapus <i>file</i> dan <i>command</i> `-r` untuk menghapus secara rekursif.
   
-  
+### KENDALA ###
+ 
+- Belum terbiasa menggunakan <i>Directory Listing</i> untuk mencari <i>file</i> dengan format penamaan tertentu dan <i>library</i> `<dirent.h>`.
+- Sempat muncul <i>error</i> ketika membuat folder baru yang menyebabkan <i>file</i> tidak dapat dipindah atau disalin ke foldernya masing-masing, serta <i>bug</i> yang hanya menyalin <i>file</i> hewan pertama saja (tidak termasuk hewan kedua) atau sebaliknya.
+- Mencari algoritma untuk menyortir dan memasukkan nama, jenis, dan umur hewan dari penamaan <i>file</i> ke dalam array karena bahasa C yang tidak mendukung <i>array of string</i>, namun bisa teratasi dengan <i>array of char</i> 2D.
 
 ## SOAL 3 ##
 
@@ -637,7 +642,7 @@ Kelompok D-04
 
 - <b>JAWABAN</b>
 
-  Soal meminta untuk membuat program C berupa daemon yang akan berjalan tiap 40 detik dan akan melakukan `fork()` untuk melakukan `mkdir` dengan <i>timestamp</i> yang sesuai permintaan soal. Pertama, menggunakan <i>template</i> Daemon bawaan dari modul 2 yang nantinya akan dimodifikasi.
+  Soal meminta untuk membuat program C berupa Daemon yang akan berjalan tiap 40 detik dan akan melakukan `fork()` untuk melakukan `mkdir` dengan <i>timestamp</i> yang sesuai permintaan soal. Pertama, menggunakan <i>template</i> Daemon bawaan dari modul 2 yang nantinya akan dimodifikasi.
   ```C
   #include <sys/types.h>
   #include <sys/stat.h>
@@ -924,3 +929,11 @@ Kelompok D-04
   }
   ```
   Masing-masing mode akan di-<i>write</i> pada `killer_prog` dengan input yang telah dimasukkan melalui terminal. Terakhir, program <i>Killer.sh</i> akan di-<i>bash</i> dan me-<i>remove</i> dirinya sendiri.
+
+### KENDALA ###
+
+- Awalnya tidak tahu cara untuk membuat dan menjalankan program Bash (ekstensi .sh) yang dieksekusi melalui bahasa C.
+- Tidak paham dengan algoritma <b>Caesar Cipher</b> dan terpaksa menggunakan <i>source code</i> yang tersebar luas di internet.
+- Bingung untuk <i>set</i> ukuran piksel gambar dari https://picsum.photos/.
+- Ketika menjalankan mode `-x`, program masih berjalan (belum terterminasi) dan ternyata terdapat kesalahan penulisan kode.
+- Sempat lupa untuk `kill` <i>process</i> yang membuat Linux saya <i>lag</i>, tapi bisa diatasi dengan <i>restart</i>.
