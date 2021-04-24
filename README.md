@@ -625,6 +625,20 @@ Kelompok D-04
   while (wait(NULL) > 0);
   ```
   <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama jenis hewan ke dalam variabel `del`. Lalu `execv()` terhadap perintah `rm` dengan argumen `del` untuk menghapus <i>file</i> dan <i>command</i> `-r` untuk menghapus secara rekursif.
+
+- <b>OUTPUT</b>
+  
+  <b><i>Folder petshop</i></b>
+ 
+  <img src="https://user-images.githubusercontent.com/37539546/115970116-a8150b80-a56a-11eb-93bc-5328560744c2.png" width="640" height="480">
+  
+  <b><i>Isi dari salah satu folder jenis hewan, yaitu cat</i></b>
+  
+  <img src="https://user-images.githubusercontent.com/37539546/115970191-1ce84580-a56b-11eb-920e-91ba96d4d80a.png" width="640" height="480">
+  
+  <b><i>Keterangan.txt dari salah satu folder jenis hewan, yaitu cat</i></b>
+ 
+  <img src="https://user-images.githubusercontent.com/37539546/115970572-69cd1b80-a56d-11eb-8a5a-ec19765106f8.png" width="640" height="480">
   
 ### KENDALA ###
  
@@ -930,6 +944,42 @@ Kelompok D-04
   ```
   Masing-masing mode akan di-<i>write</i> pada `killer_prog` dengan input yang telah dimasukkan melalui terminal. Terakhir, program <i>Killer.sh</i> akan di-<i>bash</i> dan me-<i>remove</i> dirinya sendiri.
 
+- <b>OUTPUT</b>
+  
+  <b><i>Jika jumlah argumen yang diinputkan tidak sama dengan 2</i></b>
+  
+  <img src="https://user-images.githubusercontent.com/37539546/115970627-ce887600-a56d-11eb-8835-33c030936242.png" width="640" height="480">
+  
+  <b><i>Jika mode yang diinputkan selain -x dan -z</i></b>
+  
+  <img src="https://user-images.githubusercontent.com/37539546/115970697-58384380-a56e-11eb-8dd4-c48cea118bf9.png" width="640" height="480">
+  
+  <b><i>Mode -x dijalankan</i></b>
+
+  <img src="https://user-images.githubusercontent.com/37539546/115970837-5458f100-a56f-11eb-92ab-2a4a7f581ed5.png" width="640" height="480">
+
+  <b><i>Mode -z dijalankan</i></b>
+
+  <img src="https://user-images.githubusercontent.com/37539546/115970948-f1b42500-a56f-11eb-8aad-51e07aaee532.png" width="640" height="480">
+  
+  <b><i>Killer.sh dijalankan</i></b>
+  
+  <img src="https://user-images.githubusercontent.com/37539546/115970907-c5000d80-a56f-11eb-9602-5ea41b966536.png" width="640" height="480">
+
+  <img src="https://user-images.githubusercontent.com/37539546/115971022-5f605100-a570-11eb-8b97-7dcdf8b4a0cc.png" width="640" height="480">
+  
+  <b><i>Isi folder yang sedang men-download gambar</i></b>
+  
+  <img src="https://user-images.githubusercontent.com/37539546/115970869-88341680-a56f-11eb-9191-17d3af323032.png" width="640" height="480">
+  
+  <b><i>File dan folder yang telah di-zip</i></b>
+  
+  <img src="https://user-images.githubusercontent.com/37539546/115971103-ced64080-a570-11eb-807f-ef18731091eb.png" width="640" height="480">
+  
+  <b><i>Status.txt</i></b>
+  
+  <img src="https://user-images.githubusercontent.com/37539546/115971139-f4fbe080-a570-11eb-924f-9dbbba0f5dcb.png" width="640" height="480">
+  
 ### KENDALA ###
 
 - Awalnya tidak tahu cara untuk membuat dan menjalankan program Bash (ekstensi .sh) yang dieksekusi melalui bahasa C.
