@@ -240,7 +240,7 @@ Kelompok D-04
   
 - <b>JAWABAN</b>
 
-  Pertama, menggunakan <i>template</i> Daemon bawaan dari modul 2 yang nantinya akan dimodifikasi.
+  Pertama, menggunakan <i>template</i> Daemon bagian <i>Directory Listing</i> bawaan dari modul 2 yang nantinya akan dimodifikasi.
   ```C
   #include <sys/types.h>
   #include <sys/stat.h>
@@ -307,9 +307,10 @@ Kelompok D-04
 
   while (wait(NULL) > 0);
   ```
-  - Perintah `direntp->d_name` digunakan untuk menampung tipe/jenis <i>file</i>. Dilakukan pengondisian jika di dalam direktori berisi folder dengan <i>compare</i> `DT_DIR`.
+  - Perintah `direntp->d_type` digunakan untuk menampung tipe/jenis <i>file</i>. Dilakukan pengondisian jika di dalam direktori berisi folder dengan <i>compare</i> `DT_DIR`.
   - Perintah `direntp->d_name` digunakan untuk menampung nama <i>file</i> yang ada di dalam direktori. Dilakukan pengondisian dan <i>compare</i> dengan fungsi `strcmp` untuk penghapusan folder <i>file</i> di dalam hasil <i>unzip</i> selain folder yang ter-<i>hidden</i> dengan nama direktori <b>"."</b> dan <b>".."</b>.
-  - <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `folder_name`. Lalu `execv()` terhadap perintah `rm` dengan argumen `folder_name` untuk menghapus folder-folder tidak penting sesuai permintaan soal.
+  - <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `folder_name`. Lalu `execv()` terhadap perintah `rm` dengan argumen `folder_name` untuk menghapus folder-folder tidak penting sesuai permintaan soal dan <i>command</i> `-r` untuk penghapusan secara rekursif.
+
 
 ### 2B ###
 
@@ -318,6 +319,76 @@ Kelompok D-04
   Foto peliharaan perlu dikategorikan sesuai jenis peliharaan, maka kamu harus membuat folder untuk setiap jenis peliharaan yang ada dalam <i>zip</i>. Karena kamu tidak mungkin memeriksa satu per satu, maka program harus membuatkan folder-folder yang dibutuhkan sesuai dengan isi <i>zip</i>.
 
   Contoh: Jenis peliharaan kucing akan disimpan dalam <b>"/petshop/cat"</b>, jenis peliharaan kura-kura akan disimpan dalam <b>"/petshop/turtle"</b>.
+
+- <b>JAWABAN</b>
+  
+  Sama seperti soal sebelumnya, menggunakan <i>Directory Listing</i> untuk membantu membuat folder sesuai kategori jenis hewannya. Pertama, deklarasikan variabel `folder` untuk menyimpan jenis-jenis hewan dalam <i>array of char</i> 2D (dalam C++ ini adalah <i>array of string</i>) dan `index` sebagai bantuan <i>indexing</i> pada `folder`.
+  ```C
+  DIR *dir2 = opendir("/home/thomasfelix/modul2/petshop");
+  struct dirent *direntp2;
+
+  char folder[100][200];
+  int index = 0;
+
+  while((direntp2 = readdir(dir2))) {
+      if (direntp2->d_type == DT_REG) {
+          char temp[200], temp2[200];
+
+          memset(folder[index], 0, sizeof(folder[index]));
+          memset(temp2, 0, sizeof(temp2));
+
+          strcpy(temp, direntp2->d_name);
+
+          int flag = 0;
+
+          . . .
+          
+      }
+  }
+  ```
+  - Perintah `direntp->d_type` digunakan untuk menampung tipe/jenis <i>file</i>. Dilakukan pengondisian jika di dalam direktori berisi file dengan <i>compare</i> `DT_REG`.
+  - Mendeklarasikan variabel `temp` dan `temp2` untuk menyimpan sementara nama jenis hewan dari masing-masing <i>file</i> dan `flag` sebagai penanda untuk <i>looping</i> nanti.
+  - Fungsi `memset` untuk memastikan bahwa seluruh isi dari `folder[index]` dan `temp2` bernilai 0 atau NULL.
+  - Dengan fungsi `strcpy` memindah isi dari `direntp2->d_name` ke dalam variabel `temp`.
+  
+  Kemudian melakukan <i>looping</i> untuk mencari jenis hewan yang ada di dalam penamaan <i>file</i> foto.
+  ```C
+  for (int i = 0; i < strlen(temp); i++) {
+      if (temp[i] == ';') {
+          break;
+      }
+
+      temp2[i] = temp[i];
+  }
+
+  if (flag == 0) {
+      strcpy(folder[index], temp2);
+      index++;
+  }
+
+  for (int i = 0; i < index; i++) {
+      if (strcmp(folder[i], temp) == 0) {
+          flag = 1;
+      }
+  }
+  ```
+  Karena dalam penamaan file jenis hewan dipisahkan oleh karakter ";", maka <i>looping</i> akan berhenti ketika menemukan karakter ";" dan setiap <i>looping</i> itu akan memasukkan char satu per satu ke variabel `temp2`. Lalu jika `flag` sama dengan 0 untuk memindah `temp2` ke `folder[index]` dan meng-<i>increment</i> `index`. Dan terakhir me-<i>loop</i> untuk <i>compare</i> `folder` dengan `temp`.
+  
+  Setelah itu, <i>looping</i> untuk membuat folder sebanyak <i>file</i> foto yang ada.
+  ```C
+  for (int i = 0; i < index; i++) {
+      child_id3 = fork();
+
+      if (child_id3 == 0) {
+          char folder_tujuan[250];
+          sprintf(folder_tujuan, "/home/thomasfelix/modul2/petshop/%s", folder[i]);
+
+          char *argv[] = {"mkdir", "-p", folder_tujuan, NULL};
+          execv("/bin/mkdir", argv);
+      }
+  }
+  ```
+  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `folder_tujuan`. Lalu `execv()` terhadap perintah `mkdir` dengan argumen `folder_tujuan` untuk membuat folder baru sesuai jenis hewan yang telah diambil dari penamaan nama <i>file</i> dan <i>command</i> `-p` untuk penanganan error yang akan diabaikan.
 
 ### 2C ###
 
