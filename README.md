@@ -629,16 +629,16 @@ Kelompok D-04
 - <b>OUTPUT</b>
   
   <b><i>Folder petshop</i></b>
- 
-  <img src="https://user-images.githubusercontent.com/37539546/115970116-a8150b80-a56a-11eb-93bc-5328560744c2.png" width="640" height="480">
+
+  <img src="https://user-images.githubusercontent.com/37539546/115971199-5328c380-a571-11eb-9bb9-8fc872c90680.png" width="640" height="480">
   
   <b><i>Isi dari salah satu folder jenis hewan, yaitu cat</i></b>
-  
-  <img src="https://user-images.githubusercontent.com/37539546/115970191-1ce84580-a56b-11eb-920e-91ba96d4d80a.png" width="640" height="480">
+
+  <img src="https://user-images.githubusercontent.com/37539546/115971221-75224600-a571-11eb-861c-e0c73c54e978.png" width="640" height="480">
   
   <b><i>Keterangan.txt dari salah satu folder jenis hewan, yaitu cat</i></b>
- 
-  <img src="https://user-images.githubusercontent.com/37539546/115970572-69cd1b80-a56d-11eb-8a5a-ec19765106f8.png" width="640" height="480">
+
+  <img src="https://user-images.githubusercontent.com/37539546/115971228-810e0800-a571-11eb-8d98-f29abc9edbfe.png" width="640" height="480">
   
 ### KENDALA ###
  
@@ -948,37 +948,37 @@ Kelompok D-04
   
   <b><i>Jika jumlah argumen yang diinputkan tidak sama dengan 2</i></b>
   
-  <img src="https://user-images.githubusercontent.com/37539546/115970627-ce887600-a56d-11eb-8835-33c030936242.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971326-098ca880-a572-11eb-952d-1e1169536635.png" width="640" height="480">
   
   <b><i>Jika mode yang diinputkan selain -x dan -z</i></b>
   
-  <img src="https://user-images.githubusercontent.com/37539546/115970697-58384380-a56e-11eb-8dd4-c48cea118bf9.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971320-009bd700-a572-11eb-961e-9f68ea197f87.png" width="640" height="480">
   
   <b><i>Mode -x dijalankan</i></b>
 
-  <img src="https://user-images.githubusercontent.com/37539546/115970837-5458f100-a56f-11eb-92ab-2a4a7f581ed5.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971310-f548ab80-a571-11eb-9b58-420a6ef01004.png" width="640" height="480">
 
   <b><i>Mode -z dijalankan</i></b>
 
-  <img src="https://user-images.githubusercontent.com/37539546/115970948-f1b42500-a56f-11eb-8aad-51e07aaee532.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971288-d3e7bf80-a571-11eb-92a6-090c5971496d.png" width="640" height="480">
   
   <b><i>Killer.sh dijalankan</i></b>
   
-  <img src="https://user-images.githubusercontent.com/37539546/115970907-c5000d80-a56f-11eb-9602-5ea41b966536.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971270-bf0b2c00-a571-11eb-9268-b616dac5b82b.png" width="640" height="480">
 
-  <img src="https://user-images.githubusercontent.com/37539546/115971022-5f605100-a570-11eb-8b97-7dcdf8b4a0cc.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971260-ae5ab600-a571-11eb-877d-4a303f609d49.png" width="640" height="480">
   
   <b><i>Isi folder yang sedang men-download gambar</i></b>
   
-  <img src="https://user-images.githubusercontent.com/37539546/115970869-88341680-a56f-11eb-9191-17d3af323032.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971296-e3ff9f00-a571-11eb-9ecc-df824c1070a4.png" width="640" height="480">
   
   <b><i>File dan folder yang telah di-zip</i></b>
-  
-  <img src="https://user-images.githubusercontent.com/37539546/115971103-ced64080-a570-11eb-807f-ef18731091eb.png" width="640" height="480">
+
+  <img src="https://user-images.githubusercontent.com/37539546/115971242-91be7e00-a571-11eb-8fb4-b654553d6f24.png" width="640" height="480">
   
   <b><i>Status.txt</i></b>
   
-  <img src="https://user-images.githubusercontent.com/37539546/115971139-f4fbe080-a570-11eb-924f-9dbbba0f5dcb.png" width="640" height="480">
+  <img src="https://user-images.githubusercontent.com/37539546/115971247-9c791300-a571-11eb-952f-f7a3bb968996.png" width="640" height="480">
   
 ### KENDALA ###
 
