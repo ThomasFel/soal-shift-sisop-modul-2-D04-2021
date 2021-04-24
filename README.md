@@ -372,7 +372,7 @@ Kelompok D-04
       }
   }
   ```
-  Karena dalam penamaan file jenis hewan dipisahkan oleh karakter ";", maka <i>looping</i> akan berhenti ketika menemukan karakter ";" dan setiap <i>looping</i> itu akan memasukkan char satu per satu ke variabel `temp2`. Lalu jika `flag` sama dengan 0 untuk memindah `temp2` ke `folder[index]` dan meng-<i>increment</i> `index`. Dan terakhir me-<i>loop</i> untuk <i>compare</i> `folder` dengan `temp`.
+  Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>";"</b>, maka <i>looping</i> akan berhenti ketika menemukan karakter ";" dan setiap <i>looping</i> itu akan memasukkan char satu per satu ke variabel `temp2`. Lalu jika `flag` sama dengan 0 untuk memindah `temp2` ke `folder[index]` dan meng-<i>increment</i> `index`. Dan terakhir me-<i>loop</i> untuk <i>compare</i> `folder` dengan `temp`.
   
   Setelah itu, <i>looping</i> untuk membuat folder sebanyak <i>file</i> foto yang ada.
   ```C
@@ -477,7 +477,7 @@ Kelompok D-04
   - Jika `flag` sama dengan 1, menjalankan loop `nama`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>";"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `nama` sampai menemukan <b>";"</b>. Lalu jika <i>loop</i> menemukan <b>";"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `jenis`.
   - Jika `flag` sama dengan 2, menjalankan loop `umur`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>"*_*"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `umur` sampai menemukan <b>"*_*"</b> atau <b>"."</b> dan <b>"j"</b>. Lalu jika <i>loop</i> menemukan <b>"*_*"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `jenis2`, dan jika <i>loop</i> menemukan <b>"*.*"</b> dan <b>"j"</b> akan berhenti (menemukan <i>.jpg</i>).
   
-  Setelah itu, membuat <i>child</i> baru untuk <i>copy file</i> foto ke foldernya masing-masing.
+  Setelah itu, membuat <i>child</i> baru untuk menyalin <i>file</i> foto ke foldernya masing-masing sesuai kategori.
   ```C
   child_id4 = fork();
  
@@ -493,7 +493,7 @@ Kelompok D-04
 
   while (wait(NULL) > 0);
   ```
-  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `origin` serta memasukkan jenis dan nama hewan ke variabel `goal`. Lalu `execv()` terhadap perintah `cp` dengan argumen `origin` untuk <i>copy file</i> ke folder sesuai jenis hewan yang telah diambil dari penamaan nama <i>file</i>, kemudian penamaan <i>file</i> dengan nama hewan dan <i>command</i> `-r` untuk <i>copy</i> secara rekursif.
+  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `origin` serta memasukkan jenis dan nama hewan ke variabel `goal`. Lalu `execv()` terhadap perintah `cp` dengan argumen `origin` untuk menyalin <i>file</i> ke folder sesuai jenis hewan yang telah diambil dari penamaan nama <i>file</i>, kemudian <i>rename file</i> dengan nama hewan dan <i>command</i> `-r` untuk menyalin secara rekursif.
 
 ### 2D ###
 
@@ -540,7 +540,7 @@ Kelompok D-04
   - Jika `flag` sama dengan 4, menjalankan loop `nama2`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>";"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `nama2` sampai menemukan <b>";"</b>. Lalu jika <i>loop</i> menemukan <b>";"</b>, `flag` di-<i>increment</i>, `found` ditambahkan dengan `i + 1`, dan <i>looping</i> di-<i>continue</i>, lanjut ke <i>loop</i> `jenis2`.
   - Jika `flag` sama dengan 5, menjalankan loop `umur2`. Karena dalam penamaan file jenis hewan dipisahkan oleh karakter <b>"*_*"</b>, maka <i>looping</i> akan memasukkan char satu per satu ke variabel `umur2` sampai menemukan atau <b>"."</b> dan <b>"j"</b>. Lalu jika <i>loop</i> menemukan <b>"*.*"</b> dan <b>"j"</b> akan berhenti (menemukan <i>.jpg</i>) dan variabel `found_two` menjadi 1.
   
-  Setelah itu, membuat <i>child</i> baru untuk <i>copy file</i> foto hewan kedua ke foldernya masing-masing dengan pengondisian variabel `found_two` sama dengan 1.
+  Setelah itu, membuat <i>child</i> baru untuk menyalin <i>file</i> foto hewan kedua ke foldernya masing-masing sesuai kategori dengan pengondisian variabel `found_two` sama dengan 1.
   ```C
   if (found_two == 1) {
   child_id5 = fork();
@@ -561,7 +561,7 @@ Kelompok D-04
   
   }
   ```
-  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `origin` serta memasukkan jenis dan nama hewan ke variabel `goal`. Lalu `execv()` terhadap perintah `cp` dengan argumen `origin` untuk <i>copy file</i> ke folder sesuai jenis hewan kedua yang telah diambil dari penamaan nama <i>file</i>, kemudian penamaan <i>file</i> dengan nama hewan kedua dan <i>command</i> `-r` untuk <i>copy</i> secara rekursif.
+  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `origin` serta memasukkan jenis dan nama hewan ke variabel `goal`. Lalu `execv()` terhadap perintah `cp` dengan argumen `origin` untuk menyalin <i>file</i> ke folder sesuai jenis hewan kedua yang telah diambil dari penamaan nama <i>file</i>, kemudian <i>rename file</i> dengan nama hewan kedua dan <i>command</i> `-r` untuk menyalin secara rekursif.
 
 ### 2E ###
 
@@ -575,6 +575,57 @@ Kelompok D-04
     nama  : miko
     umur  : 2 tahun
   ```
+
+- <b>JAWABAN</b>
+  
+  Membuat <i>file keterangan.txt</i> yang berisi nama dan umur hewan sesuai permintaan soal.
+  ```C
+  char keterangan[250];
+  sprintf(keterangan, "/home/thomasfelix/modul2/petshop/%s/%s", jenis, "keterangan.txt");
+  FILE *txt = fopen(keterangan, "a+");
+
+  fprintf(txt, "nama : %s\n", nama);
+  fprintf(txt, "umur : %s tahun\n\n", umur);
+
+  fclose(txt);
+  ```
+  - `sprintf` untuk menulis string dengan format `jenis/keterangan.txt` ke variabel `keterangan`.
+  - `txt` sebagai pointer ke <i>file</i>.
+  - `fopen` digunakan untuk membuka <i>file</i> yang diinginkan, menggunakan <i>command</i> `a+` agar data yang diinput ditambahkan di bagian akhir teks.
+  - `fprint` digunakan untuk mencetak string `nama` dan `umur` ke dalam `txt` sesuai permintaan soal. 
+  - `fclose` digunakan untuk menutup koneksi dari `txt`.
+  
+  Berlaku juga untuk hewan kedua, di dalam pengondisian `found_two` setelah menyalin, membuat <i>file keterangan.txt</i> yang berisi nama dan umur hewan sesuai permintaan soal.
+  ```C
+  char keterangan[250];
+  sprintf(keterangan, "/home/thomasfelix/modul2/petshop/%s/%s", jenis2, "keterangan.txt");
+  FILE *txt = fopen(keterangan, "a+");
+
+  fprintf(txt, "nama : %s\n", nama2);
+  fprintf(txt, "umur : %s tahun\n\n", umur2);
+
+  fclose(txt);
+  ```
+  <i>Process</i> yang dilakukan sama dengan hewan pertama, hanya mengganti format string menjadi `jenis2/keterangan.txt` dan output menjadi `nama2` dan `umur2`.
+  
+  Setelah itu, membuat <i>child</i> baru untuk menghapus semua <i>file</i> foto hewan.
+  ```C
+  child_id6 = fork();
+ 
+  if (child_id6 == 0) {
+      char del[450];
+
+      sprintf(del, "/home/thomasfelix/modul2/petshop/%s", direntp3->d_name);
+
+      char *argv[] = {"rm", "-r", del, NULL};
+      execv("/bin/rm", argv);
+  }
+
+  while (wait(NULL) > 0);
+  ```
+  <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama jenis hewan ke dalam variabel `del`. Lalu `execv()` terhadap perintah `rm` dengan argumen `del` untuk menghapus <i>file</i> dan <i>command</i> `-r` untuk menghapus secara rekursif.
+  
+  
 
 ## SOAL 3 ##
 
@@ -767,11 +818,11 @@ Kelompok D-04
   }
   ```
   - Variabel `message` untuk menyimpan <b>"Download Success"</b> yang akan dienkripsi dan variabel `file_name` sebesar <b>160</b> menyimpan hasil enkripsi <b>Caesar Cipher</b>.
-  - `sprintf` pertama untuk menulis string dengan format `buffer/status.txt` ke variabel `file_name`.
+  - `sprintf` untuk menulis string dengan format `buffer/status.txt` ke variabel `file_name`.
   - `txt` sebagai pointer ke <i>file</i>.
-  - `fopen` digunakan untuk membuka <i>file</i> yang diinginkan, menggunakan command `W` untuk membuat <i>file</i> baru dan melakukan proses <i>writing</i>.
+  - `fopen` digunakan untuk membuka <i>file</i> yang diinginkan, menggunakan <i>command</i> `W` untuk membuat <i>file</i> baru dan melakukan proses <i>writing</i>.
   - `fputs` digunakan untuk menyimpan string `message` ke dalam `txt`. 
-  -  `fclose` digunakan untuk menutup koneksi dari `txt`.
+  - `fclose` digunakan untuk menutup koneksi dari `txt`.
   
   Selanjutnya, program akan melakukan `execv` dengan perintah `zip`. <i>Parent process</i> akan menunggu sampai seluruh unduhan `wget` selesai. Terakhir, <i>parent process</i> akan menunggu <i>child process</i> selesai dan menghapus direktori folder yang telah di-`zip`.
   ```C
