@@ -236,7 +236,80 @@ Kelompok D-04
 
 - <b>SOAL</b>
 
-  Pertama-tama program perlu mengextract <i>zip</i> yang diberikan ke dalam folder <b>"/home/[user]/modul2/petshop"</b>. Karena bos Loba teledor, dalam <i>zip</i> tersebut bisa berisi folder-folder yang tidak penting, maka program harus bisa membedakan <i>file</i> dan folder sehingga dapat memproses <i>file</i> yang seharusnya dikerjakan dan menghapus folder-folder yang tidak dibutuhkan.
+  Pertama-tama program perlu meng-<i>extract zip</i> yang diberikan ke dalam folder <b>"/home/[user]/modul2/petshop"</b>. Karena bos Loba teledor, dalam <i>zip</i> tersebut bisa berisi folder-folder yang tidak penting, maka program harus bisa membedakan <i>file</i> dan folder sehingga dapat memproses <i>file</i> yang seharusnya dikerjakan dan menghapus folder-folder yang tidak dibutuhkan.
+  
+- <b>JAWABAN</b>
+
+  Pertama, menggunakan <i>template</i> Daemon bawaan dari modul 2 yang nantinya akan dimodifikasi.
+  ```C
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <fcntl.h>
+  #include <errno.h>
+  #include <unistd.h>
+  #include <syslog.h>
+  #include <string.h>
+  #include <wait.h>
+  #include <dirent.h>
+
+  int main() {
+      pid_t child_id, child_id2, child_id3, child_id4, child_id5, child_id6, child_id7;
+      child_id = fork();
+
+      if (child_id < 0) {
+          exit(0);
+      }
+      
+      if (child_id == 0) {
+          
+          . . .
+      
+      }
+      
+      . . .
+      
+  }
+  ```
+  Pada <i>code</i> di atas ditambahkan library `<dirent.h>` untuk memudahkan pembacaan <i>file</i> yang ada di dalam direktori.
+  
+  Setelah itu, <i>process</i> akan di-`fork` dan <i>child process</i> melakukan `execv()` terhadap perintah `unzip` dengan argumen <b>"/home/thomasfelix/modul2/pets.zip"</b>. sesuai posisi direktori <i>file</i> zip.
+  ```C
+  if (child_id == 0) {
+      char *argv[] = {"unzip", "/home/thomasfelix/modul2/pets.zip", "*;*", "-d", "/home/thomasfelix/modul2/petshop", NULL};
+      execv("/bin/unzip", argv);
+  }
+  
+  while (wait(NULL) > 0);
+  ```
+  Lalu, dengan mode `-d` untuk mengarahkan hasil <i>unzip</i> ke direktori tertentu sesuai permintaan soal dan `*;*` untuk mencari <i>file</i> yang mengandung karakter `;` (karena format soal).
+  
+  Selanjutnya, terlebih dahulu membuka direktori hasil <i>unzip</i> berada dengan perintah `opendir()`.  Melakukan <i>looping</i> selama `readdir` bernilai benar untuk membaca semua <i>file</i> yang ada di dalam direktori. Kemudian, dirent di sini adalah struct, maka saat memanggilnya, digunakan perintah `dir->d_name` sebagai contoh.
+  ```C
+  DIR *dir = opendir("/home/thomasfelix/modul2/petshop");
+  struct dirent *direntp;
+    
+  while((direntp = readdir(dir))) {
+      if ((direntp->d_type == DT_DIR) && strcmp(direntp->d_name, ".") != 0 && strcmp(direntp->d_name, "..") != 0) {
+          child_id2 = fork();
+
+          if (child_id2 == 0) {
+              char folder_name[300];
+
+              sprintf(folder_name, "/home/thomasfelix/modul2/petshop/%s", direntp->d_name);
+
+              char *argv[] = {"rm", "-r", folder_name, NULL};
+              execv("/bin/rm", argv);
+          }
+      }
+  }
+
+  while (wait(NULL) > 0);
+  ```
+  - Perintah `direntp->d_name` digunakan untuk menampung tipe/jenis <i>file</i>. Dilakukan pengondisian jika di dalam direktori berisi folder dengan <i>compare</i> `DT_DIR`.
+  - Perintah `direntp->d_name` digunakan untuk menampung nama <i>file</i> yang ada di dalam direktori. Dilakukan pengondisian dan <i>compare</i> dengan fungsi `strcmp` untuk penghapusan folder <i>file</i> di dalam hasil <i>unzip</i> selain folder yang ter-<i>hidden</i> dengan nama direktori <b>"."</b> dan <b>".."</b>.
+  - <i>Process</i> di-`fork` dan <i>child process</i> melakukan `sprintf` untuk memasukkan nama <i>file</i> ke dalam variabel `folder_name`. Lalu `execv()` terhadap perintah `rm` dengan argumen `folder_name` untuk menghapus folder-folder tidak penting sesuai permintaan soal.
 
 ### 2B ###
 
