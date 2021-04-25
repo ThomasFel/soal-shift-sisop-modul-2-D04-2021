@@ -129,6 +129,9 @@ Kelompok D-04
   }
   ```
   Pertama kita menggunakan <i>library</i> `<dirent.h>` yang di dalamnya terdapat fungsi `opendir` untuk membuka isi folder dan kemudian di-<i>looping</i> dengan parameter fungsi `readdir` untuk membaca isi folder sehingga <i>file-file</i> yang ada di dalam folder bisa dipindahkan. Kemudian setelah <i>file-file</i> didalam folder bisa terbaca selanjutnya dengan menggunakan perintah `mv` di dalam `execv` maka <i>file-file</i> tersebut akan dipindahkan ke <i>file</i> tujuan.
+  
+  dari sini didapatkan output seperti ini
+  [![16-22.png](https://i.postimg.cc/TYk0X1Vm/16-22.png)](https://postimg.cc/TpDgVRHY)
 
 ### 1E ###
 
@@ -226,6 +229,9 @@ Kelompok D-04
   }
   ```
   Di sini sesuai jadwal yang telah ditentukan pada `if` maka program akan men-<i>zip</i> folder-folder yang diinginkan kemudian akan menghapus folder sisanya yang tidak terpakai dengan perintah `zip` untuk men-<i>zip</i> dan `rm` untuk menghapus.
+  
+  dari sini didapatkan output sebagai berikut
+  [![22-22.png](https://i.postimg.cc/SKntP8HJ/22-22.png)](https://postimg.cc/LqMTYq9p)
   
 ### KENDALA ###
  
