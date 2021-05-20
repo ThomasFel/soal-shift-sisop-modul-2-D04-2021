@@ -27,8 +27,8 @@ Kelompok D-04
   if(child_id == 0)
   {
       //Buat Folder
-      char *argv[] = {"mkdir","Musyik","Pyoto","Fylm",NULL};
-      execv("/bin/mkdir",argv);
+      char *argv[] = {"mkdir", "Musyik", "Pyoto", "Fylm", NULL};
+      execv("/bin/mkdir", argv);
   }
   ```
    Di sini pertama akan melakukan `fork` kemudian di dalam fork tersebut <i>parent child process</i> akan membuat folder-folder yang diinginkan dengan perintah `execv` dengan parameter `argv` yang di dalamnya terdapat perintah `mkdir` untuk membuat folder dengan nama yang diinginkan.
@@ -64,8 +64,8 @@ Kelompok D-04
           if (child_id_3 == 0)
           {
               //Download Foto
-              char *argv[] = {"wget","-q","--no-check-certificate","https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download","-O","Foto_for_Stevany.zip",NULL};
-              execv("/usr/bin/wget",argv);
+              char *argv[] = {"wget", "-q", "--no-check-certificate", "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", NULL};
+              execv("/usr/bin/wget", argv);
           }
    }
    ```
@@ -85,8 +85,8 @@ Kelompok D-04
   {
       //unzip Foto
       while((wait(&status)) > 0);
-      char *argv[] = {"unzip","-oq","Foto_for_Stevany.zip",NULL};
-      execv("/usr/bin/unzip",argv);
+      char *argv[] = {"unzip", "-oq", "Foto_for_Stevany.zip", NULL};
+      execv("/usr/bin/unzip", argv);
   }
   ```
   Di sini program pertama-tama melakukan menunggu dulu <i>download</i> sebuah <i>file</i> zip selesai dengan fungsi `wait` yang ada di setiap <i>process</i> sehingga setiap kali program men-<i>download</i> akan ditunggu dulu hingga satu zip ter-<i>download</i> lalu <i>file</i> zip tersebut akan di-<i>unzip</i> dan kemudian akan lanjut ke <i>download</i> selanjutnya.
