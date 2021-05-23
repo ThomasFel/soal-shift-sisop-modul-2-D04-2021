@@ -19,12 +19,12 @@ Kelompok D-04
   ```C
   child_id = fork();
     
-  if(child_id < 0)
+  if (child_id < 0)
   {
       exit(EXIT_FAILURE);
   }
 
-  if(child_id == 0)
+  if (child_id == 0)
   {
       //Buat Folder
       char *argv[] = {"mkdir", "Musyik", "Pyoto", "Fylm", NULL};
@@ -47,16 +47,16 @@ Kelompok D-04
   {
       child_id_2 = fork();
       
-      if(child_id_2 < 0)
+      if (child_id_2 < 0)
       {
           exit(EXIT_FAILURE);
       }
       
-      if(child_id_2 == 0)
+      if (child_id_2 == 0)
       {
           child_id_3 = fork();
           
-          if(child_id_3 < 0)
+          if (child_id_3 < 0)
           {
               exit(EXIT_FAILURE);
           }
@@ -84,7 +84,7 @@ Kelompok D-04
   else
   {
       //unzip Foto
-      while((wait(&status)) > 0);
+      while ((wait(&status)) > 0);
       char *argv[] = {"unzip", "-oq", "Foto_for_Stevany.zip", NULL};
       execv("/usr/bin/unzip", argv);
   }
@@ -106,13 +106,13 @@ Kelompok D-04
   chdir("./FOTO/");
   folder = opendir(".");
   
-  if(folder)
+  if (folder)
   {
-      while((file = readdir(folder)) != NULL)
+      while ((file = readdir(folder)) != NULL)
       {
           child_id_9 = fork();
           
-          if(child_id_9 == 0)
+          if (child_id_9 == 0)
           {
               char *argv[] = {"mv", file->d_name, "../Pyoto/", NULL};
               execv("/bin/mv",argv);
@@ -120,7 +120,7 @@ Kelompok D-04
           
           else
           {
-              while((wait(&status)) > 0);
+              while ((wait(&status)) > 0);
           }
       }
       
@@ -145,16 +145,6 @@ Kelompok D-04
   
   Untuk [soal.1e](#1e "Goto 1e") disuruh untuk menjalankannya secara otomatis pada waktu yang telah ditentukan kemudian men-<i>zip</i> folder-folder yang telah dibuat dengan cara berikut ini:
   ```C
-  #include <sys/types.h>
-  #include <sys/stat.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <fcntl.h>
-  #include <errno.h>
-  #include <unistd.h>
-  #include <syslog.h>
-  #include <string.h>
-
   int main() {
        pid_t pid, sid;        // Variabel untuk menyimpan PID
 
@@ -200,7 +190,7 @@ Kelompok D-04
   time_t jadwal = time(NULL);
   struct tm *waktu = localtime(&jadwal);
   int status;
-  if(waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 16 && waktu->tm_min == 22 && waktu->tm_sec == 0 )
+  if (waktu->tm_mon == 3 && waktu->tm_mday == 9 && waktu->tm_hour == 16 && waktu->tm_min == 22 && waktu->tm_sec == 0 )
   ```
   
   Kemudian setelah ada penjadwalan seperti ini maka selanjutnya tinggal men-<i>zip</i> dan <i>remove</i> folder seperti perintah pada soal sesuai jadwal yang telah diinginkan sebagai berikut:
@@ -210,12 +200,12 @@ Kelompok D-04
        pid_t child_id_13;
        child_id_13 = fork();
        
-       if(child_id_13 < 0)
+       if (child_id_13 < 0)
        {
            exit(EXIT_FAILURE);
        }
        
-       if(child_id_13 == 0)
+       if (child_id_13 == 0)
        {
            char *argv[] = {"zip", "-qrm", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", NULL};
            execv("/usr/bin/zip", argv);
@@ -223,7 +213,7 @@ Kelompok D-04
     
        else
        {
-           while((wait(&status)) > 0);
+           while ((wait(&status)) > 0);
            char *argv[] = {"rm", "-r", "FOTO", "MUSIK", "FILM", NULL};
            execv("/bin/rm",argv);
        }
