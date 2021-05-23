@@ -289,7 +289,7 @@ Kelompok D-04
   DIR *dir = opendir("/home/thomasfelix/modul2/petshop");
   struct dirent *direntp;
     
-  while((direntp = readdir(dir))) {
+  while ((direntp = readdir(dir))) {
       if ((direntp->d_type == DT_DIR) && strcmp(direntp->d_name, ".") != 0 && strcmp(direntp->d_name, "..") != 0) {
           child_id2 = fork();
 
